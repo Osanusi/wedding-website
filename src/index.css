@@ -1,0 +1,122 @@
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap");
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Light Mode - Timeless */
+  --color-sage: #9DC183;
+  --color-dusty-blue: #6B8E23;
+  --color-beige: #F5F5DC;
+  --color-cream: #FFFDD0;
+  --color-warm-gray: #8B8589;
+
+  /* Dark Mode - Tron */
+  --color-tron-black: #0D0D0D;
+  --color-tron-blue: #66FCF1;
+  --color-tron-grid: #1F2833;
+  --color-tron-dark: #0B0C10;
+  --color-tron-accent: #45A29E;
+
+  /* Fonts */
+  --font-cursive: "Great Vibes", cursive;
+  --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-tech: "Orbitron", "Share Tech Mono", monospace;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+
+  /* Animation */
+  --animate-glow-pulse: glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-fade-in: fadeIn 0.6s ease-out;
+  --animate-slide-up: slideUp 0.5s ease-out;
+  --animate-shimmer: shimmer 2s ease-in-out infinite;
+  --animate-tron-scan: tron-scan 2.5s linear infinite;
+
+  @keyframes glow {
+    0%, 100% { opacity: 1; text-shadow: 0 0 10px #66FCF1, 0 0 20px #66FCF1; }
+    50% { opacity: 0.7; text-shadow: 0 0 5px #66FCF1; }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes shimmer {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(100%); }
+  }
+
+  @keyframes tron-scan {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(100%); }
+  }
+
+  @keyframes spotlight-pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+}
+
+@layer base {
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Elegant light-mode page background */
+  body:not(:where(.dark, .dark *)) {
+    background-color: #F5F5DC;
+    background-image:
+      radial-gradient(ellipse at 20% 50%, rgba(157,193,131,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(107,142,35,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 90%, rgba(255,253,208,0.5) 0%, transparent 40%),
+      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5 Q35 15 30 25 Q25 15 30 5Z' fill='%239DC183' fill-opacity='0.03'/%3E%3Cpath d='M10 35 Q15 45 10 55 Q5 45 10 35Z' fill='%236B8E23' fill-opacity='0.02'/%3E%3Cpath d='M50 35 Q55 45 50 55 Q45 45 50 35Z' fill='%239DC183' fill-opacity='0.02'/%3E%3C/svg%3E");
+    background-size: 100% 100%, 100% 100%, 100% 100%, 60px 60px;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Custom range slider for volume */
+  input[type="range"].volume-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    border-radius: 2px;
+    outline: none;
+  }
+  input[type="range"].volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  :where(.dark, .dark *) input[type="range"].volume-slider {
+    background: linear-gradient(to right, #66FCF1, #45A29E);
+  }
+  :where(.dark, .dark *) input[type="range"].volume-slider::-webkit-slider-thumb {
+    background: #66FCF1;
+    box-shadow: 0 0 8px rgba(102,252,241,0.5);
+  }
+  body:not(:where(.dark, .dark *)) input[type="range"].volume-slider {
+    background: linear-gradient(to right, #9DC183, #6B8E23);
+  }
+  body:not(:where(.dark, .dark *)) input[type="range"].volume-slider::-webkit-slider-thumb {
+    background: #6B8E23;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  }
+}
