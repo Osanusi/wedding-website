@@ -3,42 +3,43 @@ import { useOutletContext } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Clock, MapPin, Shirt } from "lucide-react";
 import PageTransition from "../components/PageTransition";
+import { weddingDetails } from "../data/weddingDetails";
 
-const WEDDING_DATE = new Date("2026-09-15T16:00:00");
+const WEDDING_DATE = new Date(weddingDetails.startDateTime);
 
 const schedule = [
   {
-    time: "3:30 PM",
+    time: "11:30 AM",
     event: "Guest Arrival",
-    detail: "Welcome cocktails on the terrace",
+    detail: "Arrive at Immaculate Conception Church and get settled",
   },
   {
-    time: "4:00 PM",
+    time: "12:00 PM",
     event: "Ceremony",
-    detail: "Garden Pavilion — an outdoor celebration of love",
+    detail: "Immaculate Conception Church — vows with family and friends",
   },
   {
-    time: "5:00 PM",
+    time: "3:30 PM - 4:30 PM",
     event: "Cocktail Hour",
-    detail: "Terrace Lounge — craft cocktails & live jazz trio",
+    detail: "Beacon Hill Manor — cocktails and light bites",
+  },
+  {
+    time: "5:30 PM - 6:30 PM",
+    event: "Reception",
+    detail: "Beacon Hill Manor — welcome toast and celebration continues",
   },
   {
     time: "6:30 PM",
-    event: "Reception",
-    detail: "Grand Ballroom — dinner, toasts & laughter",
-  },
-  {
-    time: "7:00 PM",
     event: "First Dance",
     detail: "A moment just for the two of us (and 200 witnesses)",
   },
   {
-    time: "7:30 PM",
+    time: "7:00 PM",
     event: "Dinner",
-    detail: "Three-course farm-to-table menu with wine pairings",
+    detail: "Buffet-style dinner service",
   },
   {
-    time: "9:00 PM",
+    time: "8:00 PM",
     event: "Dancing & Party",
     detail: "DJ takes the stage — dance until midnight!",
   },
@@ -91,7 +92,7 @@ export default function WeddingDay() {
           The Big Day
         </motion.h1>
         <p className={`text-lg ${isDark ? "text-gray-400" : "text-warm-gray"}`}>
-          September 15, 2026 — The Grandview Estate
+          {weddingDetails.dateDisplay} — {weddingDetails.venue.name}
         </p>
       </section>
 
@@ -196,14 +197,14 @@ export default function WeddingDay() {
           <p
             className={`text-sm ${isDark ? "text-gray-400" : "text-warm-gray"}`}
           >
-            The Grandview Estate
+            {weddingDetails.venue.name}
             <br />
-            1234 Hilltop Drive
+            {weddingDetails.venue.addressLine1}
             <br />
-            Napa Valley, CA 94558
+            {weddingDetails.venue.addressLine2}
           </p>
           <a
-            href="https://maps.google.com"
+            href={weddingDetails.venue.mapUrl}
             target="_blank"
             rel="noopener noreferrer"
             className={`inline-block mt-3 text-sm font-medium ${

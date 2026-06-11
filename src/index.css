@@ -1,15 +1,18 @@
-@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Uncial+Antiqua&family=Great+Vibes&family=Playfair+Display:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap");
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   /* Light Mode - Timeless */
-  --color-sage: #9DC183;
-  --color-dusty-blue: #6B8E23;
-  --color-beige: #F5F5DC;
-  --color-cream: #FFFDD0;
-  --color-warm-gray: #8B8589;
+  --color-sage: #B9A16A;
+  --color-dusty-blue: #7F9AB8;
+  --color-beige: #F3E8D7;
+  --color-cream: #FBF5EC;
+  --color-warm-gray: #6F6659;
+  --color-vine: #8B9673;
+  --color-gilded-gold: #B88F4A;
+  --color-royal-mist: #A8BDD4;
 
   /* Dark Mode - Tron */
   --color-tron-black: #0D0D0D;
@@ -20,6 +23,8 @@
 
   /* Fonts */
   --font-cursive: "Great Vibes", cursive;
+  --font-initial: "Uncial Antiqua", "Times New Roman", serif;
+  --font-medieval: "Cormorant Garamond", "Times New Roman", serif;
   --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
   --font-tech: "Orbitron", "Share Tech Mono", monospace;
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
@@ -30,6 +35,7 @@
   --animate-slide-up: slideUp 0.5s ease-out;
   --animate-shimmer: shimmer 2s ease-in-out infinite;
   --animate-tron-scan: tron-scan 2.5s linear infinite;
+  --animate-royal-sheen: royal-sheen 18s ease-in-out infinite;
 
   @keyframes glow {
     0%, 100% { opacity: 1; text-shadow: 0 0 10px #66FCF1, 0 0 20px #66FCF1; }
@@ -60,6 +66,11 @@
     0%, 100% { opacity: 0.6; }
     50% { opacity: 1; }
   }
+
+  @keyframes royal-sheen {
+    0%, 100% { opacity: 0.28; transform: translateY(0); }
+    50% { opacity: 0.48; transform: translateY(10px); }
+  }
 }
 
 @layer base {
@@ -72,13 +83,14 @@
 
   /* Elegant light-mode page background */
   body:not(:where(.dark, .dark *)) {
-    background-color: #F5F5DC;
+    background-color: #F3E8D7;
     background-image:
-      radial-gradient(ellipse at 20% 50%, rgba(157,193,131,0.12) 0%, transparent 60%),
-      radial-gradient(ellipse at 80% 20%, rgba(107,142,35,0.08) 0%, transparent 50%),
-      radial-gradient(ellipse at 50% 90%, rgba(255,253,208,0.5) 0%, transparent 40%),
-      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5 Q35 15 30 25 Q25 15 30 5Z' fill='%239DC183' fill-opacity='0.03'/%3E%3Cpath d='M10 35 Q15 45 10 55 Q5 45 10 35Z' fill='%236B8E23' fill-opacity='0.02'/%3E%3Cpath d='M50 35 Q55 45 50 55 Q45 45 50 35Z' fill='%239DC183' fill-opacity='0.02'/%3E%3C/svg%3E");
-    background-size: 100% 100%, 100% 100%, 100% 100%, 60px 60px;
+      radial-gradient(ellipse at 16% 26%, rgba(184, 143, 74, 0.14) 0%, transparent 56%),
+      radial-gradient(ellipse at 80% 18%, rgba(127, 154, 184, 0.16) 0%, transparent 54%),
+      radial-gradient(ellipse at 50% 86%, rgba(139, 150, 115, 0.1) 0%, transparent 44%),
+      linear-gradient(180deg, rgba(255, 252, 246, 0.72) 0%, rgba(243, 232, 215, 0) 40%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220' fill='none'%3E%3Cg opacity='.55'%3E%3Ccircle cx='110' cy='110' r='12' fill='%23b88f4a' fill-opacity='.12'/%3E%3Cpath d='M110 38c11 19 12 41 0 61c-12-20-11-42 0-61Z' stroke='%23b88f4a' stroke-width='1.2'/%3E%3Cpath d='M182 110c-19 11-41 12-61 0c20-12 42-11 61 0Z' stroke='%23b88f4a' stroke-width='1.2'/%3E%3Cpath d='M110 182c-11-19-12-41 0-61c12 20 11 42 0 61Z' stroke='%23b88f4a' stroke-width='1.2'/%3E%3Cpath d='M38 110c19-11 41-12 61 0c-20 12-42 11-61 0Z' stroke='%23b88f4a' stroke-width='1.2'/%3E%3Cpath d='M66 66c18 3 32 16 44 44c-28-11-41-25-44-44Z' stroke='%237f9ab8' stroke-width='1.05'/%3E%3Cpath d='M154 66c-3 18-16 32-44 44c11-28 25-41 44-44Z' stroke='%237f9ab8' stroke-width='1.05'/%3E%3Cpath d='M154 154c-18-3-32-16-44-44c28 11 41 25 44 44Z' stroke='%237f9ab8' stroke-width='1.05'/%3E%3Cpath d='M66 154c3-18 16-32 44-44c-11 28-25 41-44 44Z' stroke='%237f9ab8' stroke-width='1.05'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 220px 220px;
   }
 
   .scrollbar-hide {
@@ -118,5 +130,43 @@
   body:not(:where(.dark, .dark *)) input[type="range"].volume-slider::-webkit-slider-thumb {
     background: #6B8E23;
     box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  }
+}
+
+@layer components {
+  .timeless-parchment {
+    background-color: #F3E8D7;
+    background:
+      linear-gradient(135deg, rgb(255, 251, 244) 0%, rgb(243, 232, 215) 45%, rgb(250, 243, 233) 100%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0) 42%);
+  }
+
+  .timeless-brocade {
+    background-image:
+      radial-gradient(circle at 18% 22%, rgba(184, 143, 74, 0.2) 0%, transparent 32%),
+      radial-gradient(circle at 80% 24%, rgba(127, 154, 184, 0.2) 0%, transparent 34%),
+      radial-gradient(circle at 72% 78%, rgba(139, 150, 115, 0.16) 0%, transparent 28%),
+      linear-gradient(180deg, rgba(255, 252, 247, 0.68) 0%, rgba(255, 252, 247, 0.08) 38%, rgba(255, 252, 247, 0) 100%);
+    animation: var(--animate-royal-sheen);
+  }
+
+  .timeless-floral-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240' fill='none'%3E%3Cg opacity='.72'%3E%3Ccircle cx='120' cy='120' r='10' fill='%23b88f4a' fill-opacity='.16'/%3E%3Cpath d='M120 48c10 18 12 39 0 58c-12-19-10-40 0-58Z' stroke='%23b88f4a' stroke-width='1.15'/%3E%3Cpath d='M192 120c-18 10-39 12-58 0c19-12 40-10 58 0Z' stroke='%23b88f4a' stroke-width='1.15'/%3E%3Cpath d='M120 192c-10-18-12-39 0-58c12 19 10 40 0 58Z' stroke='%23b88f4a' stroke-width='1.15'/%3E%3Cpath d='M48 120c18-10 39-12 58 0c-19 12-40 10-58 0Z' stroke='%23b88f4a' stroke-width='1.15'/%3E%3Cpath d='M75 75c16 3 29 15 45 45c-28-12-41-25-45-45Z' stroke='%237f9ab8' stroke-width='1'/%3E%3Cpath d='M165 75c-3 16-15 29-45 45c12-28 25-41 45-45Z' stroke='%237f9ab8' stroke-width='1'/%3E%3Cpath d='M165 165c-16-3-29-15-45-45c28 12 41 25 45 45Z' stroke='%237f9ab8' stroke-width='1'/%3E%3Cpath d='M75 165c3-16 15-29 45-45c-12 28-25 41-45 45Z' stroke='%237f9ab8' stroke-width='1'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 240px 240px;
+    background-position: center;
+  }
+
+  .timeless-vine-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 320' fill='none'%3E%3Cg opacity='.58'%3E%3Cpath d='M12 188c36-57 90-71 132-29c17 17 28 16 45-2c20-23 57-34 119-11' stroke='%238b9673' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M86 170c-16-22-17-39-5-54c17 7 23 24 5 54Z' fill='%238b9673' fill-opacity='.12' stroke='%23b88f4a' stroke-width='0.8'/%3E%3Cpath d='M152 160c-19-22-19-41-6-58c19 8 25 28 6 58Z' fill='%238b9673' fill-opacity='.12' stroke='%23b88f4a' stroke-width='0.8'/%3E%3Cpath d='M222 154c17-18 18-34 7-48c-17 6-23 22-7 48Z' fill='%237f9ab8' fill-opacity='.12' stroke='%237f9ab8' stroke-width='0.8'/%3E%3Cpath d='M252 204c-20-13-28-27-22-45c18 0 30 12 22 45Z' fill='%238b9673' fill-opacity='.12' stroke='%23b88f4a' stroke-width='0.8'/%3E%3Cpath d='M108 214c26 6 44 19 55 44' stroke='%237f9ab8' stroke-width='1.1' stroke-linecap='round'/%3E%3Cpath d='M162 258c-15-3-26-11-35-25c14-3 27 4 35 25Z' fill='%238b9673' fill-opacity='.1' stroke='%238b9673' stroke-width='0.8'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 320px 320px;
+    background-position: center;
+  }
+
+  .timeless-corner-ornament {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200' fill='none'%3E%3Cg opacity='.84'%3E%3Cpath d='M20 152c34-8 57-31 72-71c9-22 23-39 51-53' stroke='%23b88f4a' stroke-width='2.2' stroke-linecap='round'/%3E%3Cpath d='M58 134c-18-10-28-23-26-43c17 1 29 12 26 43Z' fill='%238b9673' fill-opacity='.14' stroke='%238b9673' stroke-width='1.1'/%3E%3Cpath d='M97 96c-19-10-29-24-27-45c18 1 31 14 27 45Z' fill='%237f9ab8' fill-opacity='.12' stroke='%237f9ab8' stroke-width='1.1'/%3E%3Cpath d='M94 52c18 5 32 17 43 38' stroke='%23b88f4a' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M132 90c-15-3-25-11-33-25c14-3 26 4 33 25Z' fill='%238b9673' fill-opacity='.12' stroke='%238b9673' stroke-width='0.9'/%3E%3Ccircle cx='44' cy='154' r='5' fill='%23b88f4a' fill-opacity='.18'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.42;
   }
 }

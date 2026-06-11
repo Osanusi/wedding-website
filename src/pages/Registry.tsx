@@ -1,102 +1,52 @@
+import { useState, type ComponentType } from "react";
 import { useOutletContext } from "react-router-dom";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   ExternalLink,
+  X,
+  Wallet,
   Heart,
-  Plane,
-  Gift,
-  UtensilsCrossed,
-  Coffee,
-  Bed,
-  Waves,
-  Landmark,
-  Wine,
-  Sunrise,
+  Home,
 } from "lucide-react";
 import PageTransition from "../components/PageTransition";
-import NetflixRow from "../components/NetflixRow";
-import NetflixCard from "../components/NetflixCard";
+
+type RegistryFund = {
+  icon: ComponentType<{ size?: number }>;
+  title: string;
+  description: string;
+  inPersonOnly?: boolean;
+};
 
 const categories = [
   {
-    icon: Gift,
-    title: "Kitchen & Dining",
+    icon: Wallet,
+    title: "General Cash Gift",
     description:
-      "Help us build our dream kitchen — from a Le Creuset dutch oven to that fancy espresso machine we've been eyeing.",
-    link: "#",
-    store: "Crate & Barrel",
+      "If you'd like to bless us with a gift, we are accepting cash contributions as we start married life.",
+    inPersonOnly: true,
+  },
+  {
+    icon: Home,
+    title: "Home Fund",
+    description:
+      "Help us furnish, decorate, and tackle first-year projects in our new home.",
   },
   {
     icon: Heart,
-    title: "Home & Decor",
-    description:
-      "We just bought our first house! Help us turn it into a home with cozy linens, art, and everything in between.",
-    link: "#",
-    store: "West Elm",
-  },
-  {
-    icon: Plane,
     title: "Honeymoon Fund",
     description:
-      "We're dreaming of two weeks in Bali — temple visits, rice terraces, surf lessons, and the most incredible sunsets. Your contribution fuels the adventure.",
-    link: "#",
-    store: "Honeyfund",
+      "Support our first adventure as newlyweds with experiences, meals, and travel costs.",
   },
-];
+] satisfies RegistryFund[];
 
-const registryCards = [
-  {
-    title: "Cookware Set",
-    subtitle: "Le Creuset — $350",
-    icon: UtensilsCrossed,
-    iconVariant: "sage",
-  },
-  {
-    title: "Espresso Machine",
-    subtitle: "Breville — $700",
-    icon: Coffee,
-    iconVariant: "blue",
-  },
-  {
-    title: "Linen Duvet",
-    subtitle: "Brooklinen — $250",
-    icon: Bed,
-    iconVariant: "cream",
-  },
-  {
-    title: "Bali Surf Lesson",
-    subtitle: "Honeymoon — $100",
-    icon: Waves,
-    iconVariant: "blush",
-  },
-  {
-    title: "Dinner Set for 8",
-    subtitle: "Heath Ceramics — $480",
-    icon: UtensilsCrossed,
-    iconVariant: "cream",
-  },
-  {
-    title: "Temple Tour",
-    subtitle: "Honeymoon — $75",
-    icon: Landmark,
-    iconVariant: "sage",
-  },
-  {
-    title: "Wine Glasses",
-    subtitle: "Riedel — $120",
-    icon: Wine,
-    iconVariant: "blue",
-  },
-  {
-    title: "Sunrise Hot Air Balloon",
-    subtitle: "Honeymoon — $200",
-    icon: Sunrise,
-    iconVariant: "blush",
-  },
-];
+const PAYMENT_LINKS = {
+  paypal: import.meta.env.VITE_PAYPAL_ME_URL || "https://www.paypal.com/paypalme/",
+  venmo: import.meta.env.VITE_VENMO_URL || "https://venmo.com/",
+};
 
 export default function Registry() {
   const { isDark } = useOutletContext<{ isDark: boolean }>();
+  const [selectedFund, setSelectedFund] = useState<RegistryFund | null>(null);
 
   return (
     <PageTransition>
@@ -116,8 +66,8 @@ export default function Registry() {
         <p
           className={`text-lg max-w-xl mx-auto ${isDark ? "text-gray-400" : "text-warm-gray"}`}
         >
-          Your presence is the greatest gift — but if you'd like to give us
-          something to unwrap, here are our favorites.
+          Your presence is our greatest gift. If you would still like to bless
+          us, we are doing a cash-only registry.
         </p>
       </section>
 
@@ -158,45 +108,124 @@ export default function Registry() {
                   {cat.title}
                 </h3>
                 <p
-                  className={`text-xs mt-1 ${isDark ? "text-tron-accent" : "text-sage"}`}
-                >
-                  via {cat.store}
-                </p>
-                <p
                   className={`text-sm mt-3 leading-relaxed ${isDark ? "text-gray-400" : "text-warm-gray"}`}
                 >
                   {cat.description}
                 </p>
-                <a
-                  href={cat.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`inline-flex items-center gap-1 mt-4 text-sm font-medium transition-colors ${
-                    isDark
-                      ? "text-tron-blue hover:text-tron-blue/80"
-                      : "text-dusty-blue hover:text-dusty-blue/80"
-                  }`}
-                >
-                  View Registry <ExternalLink size={14} />
-                </a>
+                {cat.inPersonOnly ? (
+                  <p
+                    className={`mt-4 text-xs font-semibold uppercase tracking-[0.2em] ${isDark ? "text-tron-accent" : "text-sage"}`}
+                  >
+                    In person at the wedding venue
+                  </p>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setSelectedFund(cat)}
+                    className={`mt-4 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition ${
+                      isDark
+                        ? "border border-tron-blue/40 text-tron-blue hover:bg-tron-blue/10"
+                        : "border border-dusty-blue/35 text-dusty-blue hover:bg-dusty-blue/10"
+                    }`}
+                  >
+                    Contribute to this fund
+                  </button>
+                )}
               </div>
             </motion.div>
           );
         })}
       </section>
 
-      {/* Gift Ideas Carousel */}
-      <NetflixRow title="Gift Ideas">
-        {registryCards.map((card) => (
-          <NetflixCard
-            key={card.title}
-            title={card.title}
-            subtitle={card.subtitle}
-            icon={card.icon}
-            iconVariant={card.iconVariant}
-          />
-        ))}
-      </NetflixRow>
+      <AnimatePresence>
+        {selectedFund && (
+          <>
+            <motion.button
+              type="button"
+              aria-label="Close payment panel"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedFund(null)}
+              className="fixed inset-0 z-40 bg-black/45 backdrop-blur-sm"
+            />
+            <motion.aside
+              initial={{ y: 40, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 30, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className={`fixed bottom-0 left-0 right-0 z-50 mx-auto w-full max-w-2xl rounded-t-3xl p-6 sm:bottom-6 sm:rounded-3xl ${
+                isDark
+                  ? "bg-tron-dark border border-tron-blue/30"
+                  : "bg-white border border-sage/25 shadow-2xl"
+              }`}
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p
+                    className={`text-xs uppercase tracking-[0.32em] ${isDark ? "text-tron-accent" : "text-sage"}`}
+                  >
+                    Cash Registry
+                  </p>
+                  <h3
+                    className={`mt-2 text-2xl font-bold ${isDark ? "font-tech text-tron-blue" : "font-serif text-dusty-blue"}`}
+                  >
+                    {selectedFund.title}
+                  </h3>
+                  <p
+                    className={`mt-2 text-sm ${isDark ? "text-gray-400" : "text-warm-gray"}`}
+                  >
+                    Choose a payment method below.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSelectedFund(null)}
+                  className={`rounded-full p-2 transition ${isDark ? "text-tron-blue hover:bg-tron-blue/10" : "text-dusty-blue hover:bg-dusty-blue/10"}`}
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                <a
+                  href={PAYMENT_LINKS.paypal}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold transition ${
+                    isDark
+                      ? "bg-tron-blue/15 text-tron-blue hover:bg-tron-blue/25"
+                      : "bg-dusty-blue text-white hover:bg-dusty-blue/90"
+                  }`}
+                >
+                  PayPal <ExternalLink size={14} />
+                </a>
+                <a
+                  href={PAYMENT_LINKS.venmo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold transition ${
+                    isDark
+                      ? "bg-tron-blue/15 text-tron-blue hover:bg-tron-blue/25"
+                      : "bg-dusty-blue text-white hover:bg-dusty-blue/90"
+                  }`}
+                >
+                  Venmo <ExternalLink size={14} />
+                </a>
+                <div
+                  className={`inline-flex items-center justify-center rounded-xl px-4 py-3 text-sm font-semibold ${
+                    isDark
+                      ? "bg-tron-grid text-gray-300 border border-tron-blue/20"
+                      : "bg-sage/10 text-dusty-blue border border-sage/30"
+                  }`}
+                >
+                  Cash / Check at Venue
+                </div>
+              </div>
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
 
       {/* Note */}
       <section className="max-w-2xl mx-auto px-4 pb-20 text-center">
@@ -210,10 +239,9 @@ export default function Registry() {
           <p
             className={`text-sm italic leading-relaxed ${isDark ? "text-gray-400" : "text-warm-gray"}`}
           >
-            "We truly mean it when we say your presence at our wedding is the
-            greatest gift. We are so grateful to have each and every one of you
-            in our lives. If you do wish to give a gift, any contribution to our
-            registries or honeymoon fund is deeply appreciated."
+            "We truly mean it when we say your presence is enough. If you would
+            like to give, a cash contribution toward our home or honeymoon is
+            deeply appreciated."
           </p>
           <p
             className={`mt-4 font-semibold text-sm ${isDark ? "text-tron-blue font-tech" : "text-dusty-blue font-serif"}`}

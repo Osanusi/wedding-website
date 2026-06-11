@@ -1,3 +1,4 @@
+import { memo } from "react";
 import type { LucideIcon } from "lucide-react";
 
 const lightBg: Record<string, string> = {
@@ -19,7 +20,7 @@ interface PlaceholderImageProps {
   variant?: string;
 }
 
-export default function PlaceholderImage({
+function PlaceholderImage({
   icon: Icon,
   variant = "sage",
 }: PlaceholderImageProps) {
@@ -83,3 +84,5 @@ export default function PlaceholderImage({
     </div>
   );
 }
+
+export default memo(PlaceholderImage);
