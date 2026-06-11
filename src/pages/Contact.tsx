@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Mail, Phone, MessageCircle, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import PageTransition from "../components/PageTransition";
+import { weddingDetails } from "../data/weddingDetails";
 
 const faqs = [
   {
@@ -11,7 +12,7 @@ const faqs = [
   },
   {
     q: "Is there parking at the venue?",
-    a: "Yes! The Grandview Estate has complimentary valet parking for all guests. There is also a self-park lot adjacent to the main entrance.",
+    a: `${weddingDetails.venue.name} has guest parking available on site. We will share any final parking or arrival notes closer to the wedding date.`,
   },
   {
     q: "Are children welcome?",
@@ -27,11 +28,11 @@ const faqs = [
   },
   {
     q: "Is there a hotel room block?",
-    a: "Yes! We have blocks at The Napa Grand Hotel and Vineyard Inn. Check the Venues page for discount codes and booking details.",
+    a: "Lodging recommendations and any room block details are coming soon. Check the Venues page for the latest guest stay guidance.",
   },
   {
     q: "Will there be transportation between the hotel and venue?",
-    a: "We will provide a shuttle service from The Napa Grand Hotel to the venue. Departure times will be shared closer to the date.",
+    a: "Transportation details are still being finalized. If shuttle service is offered, departure times and pickup locations will be shared closer to the date.",
   },
 ];
 

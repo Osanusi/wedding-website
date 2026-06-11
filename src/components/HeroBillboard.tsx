@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Play, Info } from "lucide-react";
 import { useOutletContext } from "react-router-dom";
 import type { ReactNode } from "react";
+import TimelessBackdrop from "./TimelessBackdrop";
 
 interface HeroBillboardProps {
   title: string;
@@ -43,9 +44,9 @@ export default function HeroBillboard({
             <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-tron-blue/10 rounded-full blur-3xl" />
           </div>
         ) : (
-          // Elegant light background
-          <div className="w-full h-full bg-gradient-to-b from-beige via-cream to-beige">
-            <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_30%_40%,#9DC183_0%,transparent_50%)]" />
+          // Timeless royal background
+          <div className="w-full h-full">
+            <TimelessBackdrop variant="hero" />
           </div>
         )}
       </div>
@@ -62,7 +63,9 @@ export default function HeroBillboard({
         >
           <p
             className={`text-sm sm:text-base tracking-[0.3em] uppercase mb-4 ${
-              isDark ? "text-tron-accent font-tech" : "text-warm-gray font-sans"
+              isDark
+                ? "text-tron-accent font-tech"
+                : "text-gilded-gold font-serif"
             }`}
           >
             {date}
@@ -92,7 +95,7 @@ export default function HeroBillboard({
               className={`flex items-center gap-2 px-6 py-3 rounded-md font-semibold text-sm transition-all cursor-pointer ${
                 isDark
                   ? "bg-tron-blue text-tron-black hover:bg-tron-blue/80 shadow-[0_0_20px_rgba(102,252,241,0.3)]"
-                  : "bg-dusty-blue text-white hover:bg-dusty-blue/80"
+                  : "bg-[linear-gradient(135deg,rgba(184,143,74,0.96),rgba(127,154,184,0.96))] text-cream hover:shadow-[0_18px_40px_rgba(127,154,184,0.22)] shadow-[0_12px_30px_rgba(184,143,74,0.2)]"
               }`}
             >
               <Play size={18} />
@@ -104,7 +107,7 @@ export default function HeroBillboard({
               className={`flex items-center gap-2 px-6 py-3 rounded-md font-semibold text-sm transition-all cursor-pointer ${
                 isDark
                   ? "bg-tron-grid/80 text-gray-200 hover:bg-tron-grid border border-tron-blue/20"
-                  : "bg-white/80 text-dusty-blue hover:bg-white border border-sage/30"
+                  : "bg-white/75 text-dusty-blue hover:bg-white border border-gilded-gold/30 shadow-[0_10px_24px_rgba(184,143,74,0.08)]"
               }`}
             >
               <Info size={18} />

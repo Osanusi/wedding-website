@@ -7,8 +7,10 @@ import Venues from "./pages/Venues";
 import Registry from "./pages/Registry";
 import RSVP from "./pages/RSVP";
 import Contact from "./pages/Contact";
+import Invite from "./pages/Invite";
 
 export const router = createBrowserRouter([
+  { path: "/invite", element: <Invite /> },
   {
     element: <MainLayout />,
     children: [

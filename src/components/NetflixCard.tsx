@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { motion } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
 import PlaceholderImage from "./PlaceholderImage";
@@ -12,7 +13,7 @@ interface NetflixCardProps {
   onClick?: () => void;
 }
 
-export default function NetflixCard({
+function NetflixCard({
   title,
   subtitle,
   imageUrl,
@@ -78,3 +79,5 @@ export default function NetflixCard({
     </motion.div>
   );
 }
+
+export default memo(NetflixCard);

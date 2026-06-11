@@ -20,15 +20,15 @@ import {
   Music,
   UtensilsCrossed,
   ChefHat,
-  Sparkles,
-  HeartHandshake,
 } from "lucide-react";
 import PageTransition from "../components/PageTransition";
 import HeroBillboard from "../components/HeroBillboard";
 import NetflixRow from "../components/NetflixRow";
 import NetflixCard from "../components/NetflixCard";
 import PartySpotlightCard from "../components/PartySpotlightCard";
+import TimelessBackdrop from "../components/TimelessBackdrop";
 import type { PartyMember } from "../components/PartySpotlightCard";
+import { weddingDetails } from "../data/weddingDetails";
 
 const storyCards = [
   {
@@ -70,32 +70,54 @@ const storyCards = [
 ];
 
 const partyMembers: PartyMember[] = [
-  { name: "Sarah M.", role: "Maid of Honor", tagline: "BFF since day one", themeSong: "/audio/party/sarah.mp3" },
-  { name: "Emily R.", role: "Bridesmaid", tagline: "Always the life of the party" },
-  { name: "Jessica L.", role: "Bridesmaid", tagline: "The one who cries at everything" },
-  { name: "Mike T.", role: "Best Man", tagline: "Keeper of the ring", themeSong: "/audio/party/mike.mp3" },
+  {
+    name: "Sarah M.",
+    role: "Maid of Honor",
+    tagline: "BFF since day one",
+    themeSong: "/audio/party/sarah.mp3",
+  },
+  {
+    name: "Emily R.",
+    role: "Bridesmaid",
+    tagline: "Always the life of the party",
+  },
+  {
+    name: "Jessica L.",
+    role: "Bridesmaid",
+    tagline: "The one who cries at everything",
+  },
+  {
+    name: "Mike T.",
+    role: "Best Man",
+    tagline: "Keeper of the ring",
+    themeSong: "/audio/party/mike.mp3",
+  },
   { name: "David K.", role: "Groomsman", tagline: "Dance floor legend" },
   { name: "Chris W.", role: "Groomsman", tagline: "Always with a joke ready" },
-  { name: "Rachel B.", role: "Bridesmaid", tagline: "The planner of all plans" },
+  {
+    name: "Rachel B.",
+    role: "Bridesmaid",
+    tagline: "The planner of all plans",
+  },
   { name: "James H.", role: "Groomsman", tagline: "Calm, cool, collected" },
 ];
 
 const eventCards = [
   {
     title: "Ceremony",
-    subtitle: "4:00 PM — Garden Pavilion",
+    subtitle: "12:00 PM — Immaculate Conception Church",
     icon: Church,
     iconVariant: "sage",
   },
   {
     title: "Cocktail Hour",
-    subtitle: "5:00 PM — Terrace Lounge",
+    subtitle: "3:30 PM – 4:30 PM — Beacon Hill Manor",
     icon: Wine,
     iconVariant: "blue",
   },
   {
     title: "Reception",
-    subtitle: "6:30 PM — Grand Ballroom",
+    subtitle: "5:30 PM – 6:30 PM — Beacon Hill Manor",
     icon: PartyPopper,
     iconVariant: "cream",
   },
@@ -107,7 +129,7 @@ const eventCards = [
   },
   {
     title: "Dinner",
-    subtitle: "7:30 PM — Three-course meal",
+    subtitle: "7:00 PM — Buffet dinner",
     icon: UtensilsCrossed,
     iconVariant: "sage",
   },
@@ -121,34 +143,22 @@ const eventCards = [
 
 const registryCards = [
   {
-    title: "Kitchen & Dining",
-    subtitle: "Help us build our dream kitchen",
+    title: "Newlywed Cash Fund",
+    subtitle: "Contribute any amount you wish",
     icon: ChefHat,
     iconVariant: "sage",
   },
   {
-    title: "Home Decor",
-    subtitle: "Feathering our new nest",
+    title: "Home Fund",
+    subtitle: "Help us settle into our home",
     icon: HomeIcon,
     iconVariant: "cream",
   },
   {
     title: "Honeymoon Fund",
-    subtitle: "Adventures await in Bali",
+    subtitle: "Fuel our first getaway as newlyweds",
     icon: Plane,
     iconVariant: "blue",
-  },
-  {
-    title: "Experiences",
-    subtitle: "Date night & adventure gifts",
-    icon: Sparkles,
-    iconVariant: "blush",
-  },
-  {
-    title: "Charity",
-    subtitle: "Give back in our name",
-    icon: HeartHandshake,
-    iconVariant: "sage",
   },
 ];
 
@@ -159,6 +169,14 @@ export default function Home() {
   }>();
   const navigate = useNavigate();
   const [entered, setEntered] = useState(false);
+  const goToOurStory = useCallback(() => navigate("/our-story"), [navigate]);
+  const goToWeddingDay = useCallback(
+    () => navigate("/wedding-day"),
+    [navigate],
+  );
+  const goToRegistry = useCallback(() => navigate("/registry"), [navigate]);
+  const switchToLight = useCallback(() => setIsDark(false), [setIsDark]);
+  const switchToDark = useCallback(() => setIsDark(true), [setIsDark]);
 
   // Listen for "reset-splash" from the navbar logo click
   const resetSplash = useCallback(() => setEntered(false), []);
@@ -196,11 +214,10 @@ export default function Home() {
           >
             {/* === Light theme side === */}
             <motion.div
-              className="absolute inset-0 bg-gradient-to-br from-beige via-cream to-beige"
+              className="absolute inset-0"
               style={{ clipPath: clipLeft }}
             >
-              <div className="absolute inset-0 opacity-15 bg-[radial-gradient(circle_at_30%_40%,#9DC183_0%,transparent_50%)]" />
-              <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_70%_60%,#6B8E23_0%,transparent_40%)]" />
+              <TimelessBackdrop variant="splash" />
             </motion.div>
 
             {/* === Dark / Tron theme side === */}
@@ -241,8 +258,11 @@ export default function Home() {
               >
                 {/* Name with split coloring */}
                 <h1 className="text-5xl sm:text-7xl font-bold mb-2 relative">
-                  <span className="font-cursive text-6xl sm:text-8xl text-dusty-blue">
-                    Angel
+                  <span className="text-6xl sm:text-8xl text-dusty-blue">
+                    <span className="font-initial align-[0.02em]">A</span>
+                    <span className="font-medieval italic font-medium tracking-[0.03em]">
+                      ngel
+                    </span>
                   </span>
                   <span className="text-warm-gray dark:text-gray-500 mx-2 font-serif">
                     &
@@ -260,8 +280,8 @@ export default function Home() {
                 <button
                   onClick={() => setEntered(true)}
                   className="px-8 py-4 rounded-lg font-semibold text-lg transition-all cursor-pointer
-                    bg-gradient-to-r from-dusty-blue to-tron-blue text-white
-                    hover:shadow-[0_0_30px_rgba(102,252,241,0.3)] shadow-lg"
+                    bg-[linear-gradient(135deg,rgba(184,143,74,0.96),rgba(127,154,184,0.96))] text-cream
+                    hover:shadow-[0_18px_42px_rgba(127,154,184,0.24)] shadow-[0_14px_34px_rgba(184,143,74,0.22)]"
                 >
                   Enter Experience
                 </button>
@@ -273,10 +293,10 @@ export default function Home() {
                   </p>
                   <div className="flex items-center justify-center gap-4">
                     <button
-                      onClick={() => setIsDark(false)}
+                      onClick={switchToLight}
                       className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all cursor-pointer border ${
                         !isDark
-                          ? "bg-sage/20 border-dusty-blue text-dusty-blue shadow-md scale-105"
+                          ? "bg-gilded-gold/15 border-gilded-gold/40 text-dusty-blue shadow-[0_12px_24px_rgba(184,143,74,0.16)] scale-105"
                           : "bg-white/10 border-sage/20 text-warm-gray/70 hover:border-sage/40"
                       }`}
                     >
@@ -284,7 +304,7 @@ export default function Home() {
                       Timeless
                     </button>
                     <button
-                      onClick={() => setIsDark(true)}
+                      onClick={switchToDark}
                       className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all cursor-pointer border ${
                         isDark
                           ? "bg-tron-blue/10 border-tron-blue text-tron-blue shadow-[0_0_15px_rgba(102,252,241,0.3)] scale-105"
@@ -307,14 +327,19 @@ export default function Home() {
           title="Angel & Seun"
           titleNode={
             <>
-              <span className="font-cursive">Angel</span>
+              <span>
+                <span className="font-initial align-[0.02em]">A</span>
+                <span className="font-medieval italic font-medium tracking-[0.03em]">
+                  ngel
+                </span>
+              </span>
               <span className={isDark ? "" : " font-serif"}> & Seun</span>
             </>
           }
           subtitle="Join us for the celebration of a lifetime. Two souls, one unforgettable evening."
-          date="September 15, 2026"
-          onPlay={() => navigate("/our-story")}
-          onMoreInfo={() => navigate("/wedding-day")}
+          date={weddingDetails.dateDisplay}
+          onPlay={goToOurStory}
+          onMoreInfo={goToWeddingDay}
         />
 
         <div className="py-8 space-y-4">
@@ -326,7 +351,7 @@ export default function Home() {
                 subtitle={card.subtitle}
                 icon={card.icon}
                 iconVariant={card.iconVariant}
-                onClick={() => navigate("/our-story")}
+                onClick={goToOurStory}
               />
             ))}
           </NetflixRow>
@@ -349,7 +374,7 @@ export default function Home() {
                 subtitle={card.subtitle}
                 icon={card.icon}
                 iconVariant={card.iconVariant}
-                onClick={() => navigate("/wedding-day")}
+                onClick={goToWeddingDay}
               />
             ))}
           </NetflixRow>
@@ -362,7 +387,7 @@ export default function Home() {
                 subtitle={card.subtitle}
                 icon={card.icon}
                 iconVariant={card.iconVariant}
-                onClick={() => navigate("/registry")}
+                onClick={goToRegistry}
               />
             ))}
           </NetflixRow>
@@ -377,7 +402,14 @@ export default function Home() {
           }`}
         >
           <p className={`text-sm ${isDark ? "font-tech" : "font-serif"}`}>
-            Made with love — <span className="font-cursive text-lg">Angel</span> & Seun, 2026
+            Made with love —{" "}
+            <span className="text-lg">
+              <span className="font-initial align-[0.02em]">A</span>
+              <span className="font-medieval italic font-medium tracking-[0.03em]">
+                ngel
+              </span>
+            </span>{" "}
+            & Seun, 2026
           </p>
         </footer>
       </PageTransition>

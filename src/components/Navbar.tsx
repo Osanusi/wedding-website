@@ -32,9 +32,15 @@ export default function Navbar({ isDark }: NavbarProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo / Names — goes back to splash */}
-          <button onClick={goToSplash} className="flex items-center gap-1 cursor-pointer">
-            <span className="text-2xl font-cursive text-dusty-blue">
-              Angel
+          <button
+            onClick={goToSplash}
+            className="flex items-center gap-1 cursor-pointer"
+          >
+            <span className="text-2xl text-dusty-blue">
+              <span className="font-initial align-[0.02em]">A</span>
+              <span className="font-medieval italic font-medium tracking-[0.03em]">
+                ngel
+              </span>
             </span>
             <span
               className={`text-lg mx-0.5 ${

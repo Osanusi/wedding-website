@@ -3,14 +3,17 @@ import { useOutletContext } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, ChevronRight, ChevronLeft, PartyPopper } from "lucide-react";
 import PageTransition from "../components/PageTransition";
+import { isSupabaseConfigured, getSupabase } from "../lib/supabase";
+
+type TransportChoice = "driving" | "need_shuttle" | "unsure" | "";
 
 interface FormData {
   name: string;
   email: string;
   attending: "yes" | "no" | "";
   partySize: number;
-  mealPreference: string;
   dietaryRestrictions: string;
+  transport: TransportChoice;
   songRequest: string;
 }
 
@@ -19,10 +22,28 @@ const initialFormData: FormData = {
   email: "",
   attending: "",
   partySize: 1,
-  mealPreference: "",
   dietaryRestrictions: "",
+  transport: "",
   songRequest: "",
 };
+
+const transportOptions: { value: Exclude<TransportChoice, "">; label: string; detail: string }[] = [
+  {
+    value: "driving",
+    label: "I'll drive myself",
+    detail: "Beacon Hill Manor is about an hour west of DC.",
+  },
+  {
+    value: "need_shuttle",
+    label: "I'd like shuttle info from DC",
+    detail: "We'll send pickup details if there's enough interest.",
+  },
+  {
+    value: "unsure",
+    label: "Not sure yet",
+    detail: "We'll follow up closer to the date.",
+  },
+];
 
 const steps = ["Your Info", "Attendance", "Preferences", "Extras", "Confirm"];
 
@@ -31,6 +52,8 @@ export default function RSVP() {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>(
     {},
   );
@@ -52,8 +75,8 @@ export default function RSVP() {
       if (!formData.attending) newErrors.attending = "Please select one";
     }
     if (step === 2 && formData.attending === "yes") {
-      if (!formData.mealPreference)
-        newErrors.mealPreference = "Please select a meal";
+      if (!formData.transport)
+        newErrors.transport = "Let us know how you'd like to get there";
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -78,8 +101,46 @@ export default function RSVP() {
   };
 
   const handleSubmit = async () => {
-    // TODO: Replace with real API call to AWS API Gateway
-    setSubmitted(true);
+    if (submitting) return;
+    setSubmitError(null);
+
+    if (!isSupabaseConfigured) {
+      setSubmitError(
+        "RSVP storage is not configured yet. Please try again later or reach out directly.",
+      );
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const attending = formData.attending === "yes" ? "yes" : "no";
+      const isYes = attending === "yes";
+      const { error } = await getSupabase().from("rsvps").insert({
+        name: formData.name.trim(),
+        email: formData.email.trim().toLowerCase(),
+        attending,
+        party_size: isYes ? formData.partySize : null,
+        meal_preference: null,
+        dietary_restrictions:
+          isYes && formData.dietaryRestrictions.trim()
+            ? formData.dietaryRestrictions.trim()
+            : null,
+        transport: isYes && formData.transport ? formData.transport : null,
+        song_request: formData.songRequest.trim() || null,
+        user_agent:
+          typeof navigator !== "undefined" ? navigator.userAgent : null,
+      });
+
+      if (error) throw error;
+      setSubmitted(true);
+    } catch (err) {
+      console.error("[rsvp] submit failed", err);
+      setSubmitError(
+        "We couldn't save your RSVP just now. Please try again in a moment.",
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const inputClass = `w-full px-4 py-3 rounded-lg text-sm outline-none transition-all ${
@@ -298,30 +359,9 @@ export default function RSVP() {
                 </div>
               )}
 
-              {/* Step 2: Meal Preferences */}
+              {/* Step 2: Dietary + Transport */}
               {step === 2 && (
                 <div className="space-y-4">
-                  <label className={labelClass}>Meal Preference</label>
-                  <div className="grid grid-cols-1 gap-3">
-                    {[
-                      "Beef Tenderloin",
-                      "Grilled Salmon",
-                      "Mushroom Risotto (V)",
-                      "Kids Meal",
-                    ].map((meal) => (
-                      <div
-                        key={meal}
-                        onClick={() => update("mealPreference", meal)}
-                        className={radioClass(formData.mealPreference === meal)}
-                      >
-                        {meal}
-                      </div>
-                    ))}
-                  </div>
-                  {errors.mealPreference && (
-                    <p className={errorClass}>{errors.mealPreference}</p>
-                  )}
-
                   <div>
                     <label className={labelClass}>Dietary Restrictions</label>
                     <input
@@ -333,6 +373,39 @@ export default function RSVP() {
                       placeholder="Allergies, vegetarian, etc."
                       className={inputClass}
                     />
+                  </div>
+
+                  <div className="pt-2">
+                    <label className={labelClass}>
+                      Getting to Beacon Hill Manor
+                    </label>
+                    <p
+                      className={`text-xs mb-3 ${isDark ? "text-gray-500" : "text-warm-gray/70"}`}
+                    >
+                      The venue is about an hour west of DC. Help us plan
+                      transportation.
+                    </p>
+                    <div className="grid grid-cols-1 gap-3">
+                      {transportOptions.map((opt) => (
+                        <div
+                          key={opt.value}
+                          onClick={() => update("transport", opt.value)}
+                          className={radioClass(
+                            formData.transport === opt.value,
+                          )}
+                        >
+                          <div className="font-semibold">{opt.label}</div>
+                          <div
+                            className={`text-xs mt-1 ${isDark ? "text-gray-500" : "text-warm-gray/60"}`}
+                          >
+                            {opt.detail}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    {errors.transport && (
+                      <p className={errorClass}>{errors.transport}</p>
+                    )}
                   </div>
                 </div>
               )}
@@ -384,14 +457,20 @@ export default function RSVP() {
                         <p>
                           <strong>Party Size:</strong> {formData.partySize}
                         </p>
-                        <p>
-                          <strong>Meal:</strong>{" "}
-                          {formData.mealPreference || "Not selected"}
-                        </p>
                         {formData.dietaryRestrictions && (
                           <p>
                             <strong>Dietary:</strong>{" "}
                             {formData.dietaryRestrictions}
+                          </p>
+                        )}
+                        {formData.transport && (
+                          <p>
+                            <strong>Transport:</strong>{" "}
+                            {
+                              transportOptions.find(
+                                (o) => o.value === formData.transport,
+                              )?.label
+                            }
                           </p>
                         )}
                         {formData.songRequest && (
@@ -402,6 +481,17 @@ export default function RSVP() {
                       </>
                     )}
                   </div>
+                  {submitError && (
+                    <p
+                      className={`text-sm mt-4 px-4 py-3 rounded-lg ${
+                        isDark
+                          ? "bg-red-900/30 text-red-300 border border-red-500/40"
+                          : "bg-red-50 text-red-700 border border-red-200"
+                      }`}
+                    >
+                      {submitError}
+                    </p>
+                  )}
                 </div>
               )}
             </motion.div>
@@ -435,13 +525,14 @@ export default function RSVP() {
             ) : (
               <button
                 onClick={handleSubmit}
-                className={`px-6 py-2 rounded-lg text-sm font-semibold transition-all cursor-pointer ${
+                disabled={submitting}
+                className={`px-6 py-2 rounded-lg text-sm font-semibold transition-all cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed ${
                   isDark
                     ? "bg-tron-blue text-tron-black hover:shadow-[0_0_20px_rgba(102,252,241,0.4)]"
                     : "bg-dusty-blue text-white hover:bg-dusty-blue/90 shadow-lg"
                 }`}
               >
-                Submit RSVP
+                {submitting ? "Sending\u2026" : "Submit RSVP"}
               </button>
             )}
           </div>
