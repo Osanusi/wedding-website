@@ -151,249 +151,6 @@ function Monogram({
 }
 
 // ────────────────────────────────────────────────────────────────────────────
-// Wax seal — fully illustrated SVG (irregular pool, drips, embossed monogram)
-// ────────────────────────────────────────────────────────────────────────────
-
-function WaxSeal({ isDark }: { isDark: boolean }) {
-  // Palette — pearl ivory in light, candlelit pewter in dark
-  const c = isDark
-    ? {
-        rim: "#E4F2EF",
-        body: "#C9DEDA",
-        deep: "#7C9D98",
-        shadow: "#1D2A2A",
-        highlight: "#FFFFFF",
-        ink: "#1A2728",
-      }
-    : {
-        rim: "#FFFAEC",
-        body: "#EEDFB8",
-        deep: "#9E7E47",
-        shadow: "#4B3514",
-        highlight: "#FFFFFF",
-        ink: "#5C4014",
-      };
-
-  return (
-    <svg
-      viewBox="0 0 220 220"
-      className="absolute inset-0 h-full w-full overflow-visible"
-      aria-hidden="true"
-    >
-      <defs>
-        {/* Pool of wax — main body gradient (subsurface depth) */}
-        <radialGradient id="seal-body" cx="42%" cy="36%" r="62%">
-          <stop offset="0%" stopColor={c.rim} />
-          <stop offset="38%" stopColor={c.body} />
-          <stop offset="78%" stopColor={c.deep} />
-          <stop offset="100%" stopColor={c.shadow} />
-        </radialGradient>
-
-        {/* Inner recessed medallion — pressed-in shading */}
-        <radialGradient id="seal-medallion" cx="48%" cy="42%" r="58%">
-          <stop offset="0%" stopColor={c.body} stopOpacity="0.0" />
-          <stop offset="55%" stopColor={c.shadow} stopOpacity="0.0" />
-          <stop offset="100%" stopColor={c.shadow} stopOpacity="0.42" />
-        </radialGradient>
-
-        {/* Specular highlight — pearly sheen */}
-        <radialGradient id="seal-spec" cx="34%" cy="22%" r="34%">
-          <stop offset="0%" stopColor={c.highlight} stopOpacity="0.85" />
-          <stop offset="60%" stopColor={c.highlight} stopOpacity="0.12" />
-          <stop offset="100%" stopColor={c.highlight} stopOpacity="0" />
-        </radialGradient>
-
-        {/* Cast shadow on paper below */}
-        <radialGradient id="seal-cast" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#000" stopOpacity="0.32" />
-          <stop offset="65%" stopColor="#000" stopOpacity="0.1" />
-          <stop offset="100%" stopColor="#000" stopOpacity="0" />
-        </radialGradient>
-
-        {/* Emboss filter for the monogram (true depth, not text-shadow) */}
-        <filter id="seal-emboss" x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur in="SourceAlpha" stdDeviation="0.6" result="blur" />
-          <feSpecularLighting
-            in="blur"
-            surfaceScale="2.4"
-            specularConstant="0.9"
-            specularExponent="22"
-            lightingColor={c.highlight}
-            result="spec"
-          >
-            <feDistantLight azimuth="135" elevation="48" />
-          </feSpecularLighting>
-          <feComposite
-            in="spec"
-            in2="SourceAlpha"
-            operator="in"
-            result="specOnShape"
-          />
-          <feMerge>
-            <feMergeNode in="SourceGraphic" />
-            <feMergeNode in="specOnShape" />
-          </feMerge>
-        </filter>
-
-        {/* Subtle wax grain */}
-        <filter id="seal-grain">
-          <feTurbulence
-            type="fractalNoise"
-            baseFrequency="0.9"
-            numOctaves="2"
-            seed="4"
-          />
-          <feColorMatrix
-            values="0 0 0 0 0
-                    0 0 0 0 0
-                    0 0 0 0 0
-                    0 0 0 0.08 0"
-          />
-          <feComposite in2="SourceGraphic" operator="in" />
-        </filter>
-      </defs>
-
-      {/* Cast shadow on envelope */}
-      <ellipse cx="112" cy="124" rx="78" ry="14" fill="url(#seal-cast)" />
-
-      {/* Drips — slightly offset, behind main blob, with their own shadow */}
-      <g
-        fill={c.deep}
-        opacity="0.85"
-        style={{ filter: "drop-shadow(0 2px 2px rgba(40,28,8,0.35))" }}
-      >
-        <path d="M48 96 q-12 6 -10 18 q4 10 14 6 q8 -4 4 -16 z" />
-        <path d="M172 84 q14 4 14 18 q-2 12 -14 8 q-10 -4 -6 -16 z" />
-        <path d="M86 168 q-4 12 6 18 q12 6 16 -6 q2 -10 -8 -14 z" />
-        <path d="M150 174 q10 4 8 16 q-4 12 -14 8 q-8 -6 -2 -16 z" />
-        <path d="M44 60 q-6 -8 4 -14 q10 -4 12 4 q2 8 -6 12 z" />
-      </g>
-
-      {/* Main wax pool — irregular natural blob, NOT a circle */}
-      <g style={{ filter: "drop-shadow(0 8px 14px rgba(40,28,8,0.32))" }}>
-        <path
-          d="
-            M 110 22
-            C 138 20 168 32 184 56
-            C 198 78 200 104 192 128
-            C 184 152 162 174 134 180
-            C 110 184 84 180 62 168
-            C 38 154 24 132 22 106
-            C 20 80 32 56 56 40
-            C 72 30 92 24 110 22
-            Z"
-          fill="url(#seal-body)"
-          stroke={c.shadow}
-          strokeOpacity="0.18"
-          strokeWidth="0.6"
-        />
-        {/* Grain overlay on body */}
-        <path
-          d="
-            M 110 22
-            C 138 20 168 32 184 56
-            C 198 78 200 104 192 128
-            C 184 152 162 174 134 180
-            C 110 184 84 180 62 168
-            C 38 154 24 132 22 106
-            C 20 80 32 56 56 40
-            C 72 30 92 24 110 22
-            Z"
-          fill={c.shadow}
-          filter="url(#seal-grain)"
-        />
-      </g>
-
-      {/* Inner raised rim */}
-      <circle
-        cx="110"
-        cy="102"
-        r="62"
-        fill="none"
-        stroke={c.shadow}
-        strokeOpacity="0.22"
-        strokeWidth="1.4"
-      />
-      <circle
-        cx="110"
-        cy="102"
-        r="62"
-        fill="none"
-        stroke={c.highlight}
-        strokeOpacity="0.55"
-        strokeWidth="0.6"
-        transform="translate(0,-1)"
-      />
-
-      {/* Recessed medallion shading */}
-      <circle cx="110" cy="102" r="58" fill="url(#seal-medallion)" />
-
-      {/* Decorative inner ring */}
-      <circle
-        cx="110"
-        cy="102"
-        r="50"
-        fill="none"
-        stroke={c.shadow}
-        strokeOpacity="0.28"
-        strokeWidth="0.7"
-        strokeDasharray="1 2.4"
-      />
-
-      {/* Embossed monogram A & S */}
-      <g
-        filter="url(#seal-emboss)"
-        fill={c.shadow}
-        fillOpacity="0.85"
-        textAnchor="middle"
-      >
-        <text
-          x="86"
-          y="120"
-          fontFamily="'Great Vibes', cursive"
-          fontSize="62"
-        >
-          A
-        </text>
-        <text
-          x="110"
-          y="116"
-          fontFamily="'Cormorant Garamond', serif"
-          fontStyle="italic"
-          fontSize="30"
-          fillOpacity="0.7"
-        >
-          &amp;
-        </text>
-        <text
-          x="136"
-          y="120"
-          fontFamily="'Great Vibes', cursive"
-          fontSize="62"
-        >
-          S
-        </text>
-      </g>
-
-      {/* Pearly specular highlight — placed last to sit on top */}
-      <path
-        d="
-          M 110 22
-          C 138 20 168 32 184 56
-          C 198 78 200 104 192 128
-          C 184 152 162 174 134 180
-          C 110 184 84 180 62 168
-          C 38 154 24 132 22 106
-          C 20 80 32 56 56 40
-          C 72 30 92 24 110 22
-          Z"
-        fill="url(#seal-spec)"
-      />
-    </svg>
-  );
-}
-
-// ────────────────────────────────────────────────────────────────────────────
 // Act 0 — Envelope intro
 // ────────────────────────────────────────────────────────────────────────────
 
@@ -628,17 +385,27 @@ function EnvelopeIntro({
           />
         </svg>
 
-        {/* Wax seal — the only opener */}
+        {/* Open invitation button */}
         <motion.button
           type="button"
           onClick={onOpen}
           aria-label="Open the invitation"
-          className="group absolute left-1/2 top-[51%] z-10 h-[32%] w-[32%] -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-full transition duration-300 hover:scale-[1.04] focus-visible:outline-2 focus-visible:outline-offset-6 focus-visible:outline-gilded-gold"
+          className="group absolute left-1/2 top-[51%] z-10 flex h-[22%] w-[72%] -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-[1.6rem] border border-gilded-gold/55 bg-cream/92 px-5 py-4 text-center shadow-[0_18px_40px_rgba(82,63,37,0.16)] transition duration-300 hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-6 focus-visible:outline-gilded-gold dark:border-tron-blue/45 dark:bg-tron-grid/80"
           initial={{ scale: 0, rotate: -18 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ delay: 0.7, duration: 0.65, ease: "backOut" }}
         >
-          <WaxSeal isDark={isDark} />
+          <div>
+            <p className="text-[0.62rem] uppercase tracking-[0.42em] text-warm-gray/70 dark:font-tech dark:text-tron-blue/65">
+              Tap to open
+            </p>
+            <p className="mt-3 font-serif text-2xl text-warm-gray dark:text-tron-blue sm:text-3xl">
+              {guestName ? `Welcome, ${guestName}` : "Open Invitation"}
+            </p>
+            <p className="mt-2 text-[0.68rem] uppercase tracking-[0.28em] text-warm-gray/70 dark:text-tron-blue/65">
+              Angel & Seun
+            </p>
+          </div>
         </motion.button>
       </motion.div>
 
@@ -1246,149 +1013,153 @@ function InvitationCard({
       {/* Backdrop */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_30%_18%,rgba(255,253,247,0.95)_0%,rgba(243,232,215,0.95)_50%,rgba(216,196,160,0.92)_100%)] dark:bg-[radial-gradient(ellipse_at_30%_18%,rgba(31,40,51,0.96)_0%,rgba(13,13,13,0.98)_60%,#050608_100%)]" />
 
-      <div className="relative mx-auto flex min-h-full max-w-3xl flex-col items-center px-5 py-14 sm:px-8 sm:py-20">
-        {/* Hero */}
-        <motion.div
-          className="flex flex-col items-center text-center"
-          variants={fadeUp}
-          initial="hidden"
-          animate="show"
+      <div className="relative mx-auto flex min-h-full w-full max-w-5xl items-start px-4 py-6 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
+        <div
+          className="w-full rounded-[1.8rem] border border-gilded-gold/28 bg-cream/90 px-5 py-8 shadow-[0_28px_60px_rgba(82,63,37,0.16)] backdrop-blur dark:border-tron-blue/30 dark:bg-tron-grid/82 sm:px-8 sm:py-10 lg:px-12 lg:py-12"
         >
-          <Monogram className="h-20 w-20 text-gilded-gold dark:text-tron-blue sm:h-24 sm:w-24" />
-          <p className="mt-6 text-[0.7rem] uppercase tracking-[0.45em] text-warm-gray/85 dark:font-tech dark:text-tron-blue/80">
-            Together with our families
-          </p>
-          <h1 className="mt-4 font-serif text-5xl leading-tight text-warm-gray dark:text-tron-blue sm:text-7xl">
-            {weddingDetails.coupleNames}
-          </h1>
-          <p className="mt-4 text-sm uppercase tracking-[0.36em] text-warm-gray/80 dark:text-tron-blue/70">
-            request the honour of your presence
-          </p>
-          <p className="mt-6 font-serif text-2xl italic text-warm-gray dark:text-tron-blue/90 sm:text-3xl">
-            {weddingDetails.dateLongDisplay}
-          </p>
-          {guestName && (
-            <p
-              className="mt-7 text-2xl text-gilded-gold dark:text-tron-blue sm:text-3xl"
-              style={{ fontFamily: "'Great Vibes', cursive" }}
-            >
-              for {guestName}
+          {/* Hero */}
+          <motion.div
+            className="flex flex-col items-center text-center"
+            variants={fadeUp}
+            initial="hidden"
+            animate="show"
+          >
+            <Monogram className="h-18 w-18 text-gilded-gold dark:text-tron-blue sm:h-22 sm:w-22" />
+            <p className="mt-5 text-[0.68rem] uppercase tracking-[0.45em] text-warm-gray/85 dark:font-tech dark:text-tron-blue/80">
+              Together with our families
             </p>
-          )}
-        </motion.div>
-
-        {/* Two venues */}
-        <motion.div
-          className="mt-14 grid w-full gap-6 sm:grid-cols-2"
-          variants={fadeUp}
-          initial="hidden"
-          animate="show"
-          transition={{ delay: 0.12 }}
-        >
-          <VenueCard
-            kicker="Ceremony · 12:00 PM"
-            name={weddingDetails.ceremonyVenue.name}
-            line={weddingDetails.ceremonyVenue.region}
-            description={weddingDetails.ceremonyVenue.description}
-            mapUrl={weddingDetails.ceremonyVenue.mapUrl}
-            websiteUrl={weddingDetails.ceremonyVenue.websiteUrl}
-          />
-          <VenueCard
-            kicker="Reception · 5:30 PM - 6:30 PM"
-            name={weddingDetails.venue.name}
-            line={`${weddingDetails.venue.addressLine1}, ${weddingDetails.venue.addressLine2}`}
-            description={weddingDetails.venue.description}
-            mapUrl={weddingDetails.venue.mapUrl}
-            websiteUrl={weddingDetails.venue.websiteUrl}
-          />
-        </motion.div>
-
-        {/* Schedule */}
-        <motion.section
-          className="mt-14 w-full"
-          variants={fadeUp}
-          initial="hidden"
-          animate="show"
-          transition={{ delay: 0.2 }}
-        >
-          <h2 className="text-center text-[0.7rem] uppercase tracking-[0.45em] text-warm-gray/85 dark:font-tech dark:text-tron-blue/80">
-            The timeline
-          </h2>
-          <ol className="relative mt-7 border-l border-gilded-gold/40 pl-6 dark:border-tron-blue/40">
-            {eveningMoments.map((moment) => (
-              <li key={moment.title} className="relative pb-6 last:pb-0">
-                <span className="absolute -left-[7px] top-2 h-2.5 w-2.5 rounded-full bg-gilded-gold shadow-[0_0_0_3px_rgba(184,143,74,0.18)] dark:bg-tron-blue dark:shadow-[0_0_0_3px_rgba(102,252,241,0.22)]" />
-                <p className="text-xs uppercase tracking-[0.35em] text-warm-gray/75 dark:text-tron-blue/70">
-                  {moment.time}
-                </p>
-                <p className="mt-1 font-serif text-xl text-warm-gray dark:text-tron-blue">
-                  {moment.title}
-                </p>
-                <p className="mt-1 text-sm text-warm-gray/85 dark:text-tron-blue/75">
-                  {moment.detail}
-                </p>
-              </li>
-            ))}
-          </ol>
-        </motion.section>
-
-        {/* Guest notes */}
-        <motion.section
-          className="mt-14 grid w-full gap-5 sm:grid-cols-3"
-          variants={fadeUp}
-          initial="hidden"
-          animate="show"
-          transition={{ delay: 0.28 }}
-        >
-          {guestNotes.map((note) => (
-            <div
-              key={note.title}
-              className="rounded-2xl border border-gilded-gold/30 bg-cream/85 p-5 text-warm-gray shadow-[0_12px_28px_rgba(82,63,37,0.1)] backdrop-blur dark:border-tron-blue/40 dark:bg-tron-grid/75 dark:text-tron-blue/90"
-            >
-              <p className="text-[0.65rem] uppercase tracking-[0.4em] text-warm-gray/80 dark:font-tech dark:text-tron-blue/70">
-                {note.title}
+            <h1 className="mt-4 max-w-[12ch] font-serif text-5xl leading-[0.92] text-warm-gray dark:text-tron-blue sm:text-6xl lg:text-7xl">
+              {weddingDetails.coupleNames}
+            </h1>
+            <p className="mt-4 text-sm uppercase tracking-[0.34em] text-warm-gray/80 dark:text-tron-blue/70">
+              request the honour of your presence
+            </p>
+            <p className="mt-6 font-serif text-2xl italic text-warm-gray dark:text-tron-blue/90 sm:text-3xl">
+              {weddingDetails.dateLongDisplay}
+            </p>
+            {guestName && (
+              <p
+                className="mt-6 max-w-[14ch] text-3xl leading-none text-gilded-gold dark:text-tron-blue sm:text-4xl"
+                style={{ fontFamily: "'Great Vibes', cursive" }}
+              >
+                for {guestName}
               </p>
-              <p className="mt-2 text-sm leading-relaxed">{note.detail}</p>
-            </div>
-          ))}
-        </motion.section>
+            )}
+          </motion.div>
 
-        {/* CTAs */}
-        <motion.div
-          className="mt-14 flex w-full flex-col items-center gap-4 sm:flex-row sm:justify-center"
-          variants={fadeUp}
-          initial="hidden"
-          animate="show"
-          transition={{ delay: 0.36 }}
-        >
-          <Link
-            to="/rsvp"
-            className="inline-flex items-center gap-2 rounded-full bg-gilded-gold px-7 py-3 text-sm uppercase tracking-[0.32em] text-cream shadow-[0_18px_40px_rgba(184,143,74,0.32)] transition hover:bg-[#9c7a3e] dark:bg-tron-blue dark:text-tron-black dark:shadow-[0_18px_40px_rgba(102,252,241,0.32)] dark:hover:bg-tron-accent"
+          {/* Two venues */}
+          <motion.div
+            className="mt-12 grid w-full gap-5 lg:grid-cols-2"
+            variants={fadeUp}
+            initial="hidden"
+            animate="show"
+            transition={{ delay: 0.12 }}
           >
-            <Send className="h-4 w-4" />
-            RSVP
-          </Link>
-          <a
-            href={calendarUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-gilded-gold/60 px-7 py-3 text-sm uppercase tracking-[0.32em] text-warm-gray transition hover:bg-gilded-gold/10 dark:border-tron-blue/60 dark:text-tron-blue dark:hover:bg-tron-blue/10"
-          >
-            <CalendarPlus className="h-4 w-4" />
-            Add to calendar
-          </a>
-          <Link
-            to="/"
-            className="text-xs uppercase tracking-[0.42em] text-warm-gray/75 underline-offset-4 hover:underline dark:text-tron-blue/70"
-          >
-            Open wedding website
-          </Link>
-        </motion.div>
+            <VenueCard
+              kicker="Ceremony · 12:00 PM"
+              name={weddingDetails.ceremonyVenue.name}
+              line={weddingDetails.ceremonyVenue.region}
+              description={weddingDetails.ceremonyVenue.description}
+              mapUrl={weddingDetails.ceremonyVenue.mapUrl}
+              websiteUrl={weddingDetails.ceremonyVenue.websiteUrl}
+            />
+            <VenueCard
+              kicker="Reception · 5:30 PM - 6:30 PM"
+              name={weddingDetails.venue.name}
+              line={`${weddingDetails.venue.addressLine1}, ${weddingDetails.venue.addressLine2}`}
+              description={weddingDetails.venue.description}
+              mapUrl={weddingDetails.venue.mapUrl}
+              websiteUrl={weddingDetails.venue.websiteUrl}
+            />
+          </motion.div>
 
-        <p className="mt-16 flex items-center gap-2 text-[0.65rem] uppercase tracking-[0.4em] text-warm-gray/70 dark:font-tech dark:text-tron-blue/60">
-          <Heart className="h-3 w-3" />
-          With love, Angel & Seun
-        </p>
+          {/* Schedule */}
+          <motion.section
+            className="mt-12 w-full"
+            variants={fadeUp}
+            initial="hidden"
+            animate="show"
+            transition={{ delay: 0.2 }}
+          >
+            <h2 className="text-center text-[0.68rem] uppercase tracking-[0.45em] text-warm-gray/85 dark:font-tech dark:text-tron-blue/80">
+              The timeline
+            </h2>
+            <ol className="relative mt-6 border-l border-gilded-gold/40 pl-6 dark:border-tron-blue/40">
+              {eveningMoments.map((moment) => (
+                <li key={moment.title} className="relative pb-6 last:pb-0">
+                  <span className="absolute -left-[7px] top-2 h-2.5 w-2.5 rounded-full bg-gilded-gold shadow-[0_0_0_3px_rgba(184,143,74,0.18)] dark:bg-tron-blue dark:shadow-[0_0_0_3px_rgba(102,252,241,0.22)]" />
+                  <p className="text-xs uppercase tracking-[0.35em] text-warm-gray/75 dark:text-tron-blue/70">
+                    {moment.time}
+                  </p>
+                  <p className="mt-1 font-serif text-xl text-warm-gray dark:text-tron-blue">
+                    {moment.title}
+                  </p>
+                  <p className="mt-1 text-sm text-warm-gray/85 dark:text-tron-blue/75">
+                    {moment.detail}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          </motion.section>
+
+          {/* Guest notes */}
+          <motion.section
+            className="mt-12 grid w-full gap-4 sm:grid-cols-3"
+            variants={fadeUp}
+            initial="hidden"
+            animate="show"
+            transition={{ delay: 0.28 }}
+          >
+            {guestNotes.map((note) => (
+              <div
+                key={note.title}
+                className="rounded-2xl border border-gilded-gold/30 bg-cream/85 p-4 text-warm-gray shadow-[0_12px_24px_rgba(82,63,37,0.08)] backdrop-blur dark:border-tron-blue/40 dark:bg-tron-grid/75 dark:text-tron-blue/90"
+              >
+                <p className="text-[0.64rem] uppercase tracking-[0.4em] text-warm-gray/80 dark:font-tech dark:text-tron-blue/70">
+                  {note.title}
+                </p>
+                <p className="mt-2 text-sm leading-relaxed">{note.detail}</p>
+              </div>
+            ))}
+          </motion.section>
+
+          {/* CTAs */}
+          <motion.div
+            className="mt-12 flex w-full flex-col items-stretch gap-3 sm:flex-row sm:justify-center"
+            variants={fadeUp}
+            initial="hidden"
+            animate="show"
+            transition={{ delay: 0.36 }}
+          >
+            <Link
+              to="/rsvp"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-gilded-gold px-7 py-3 text-sm uppercase tracking-[0.32em] text-cream shadow-[0_18px_40px_rgba(184,143,74,0.32)] transition hover:bg-[#9c7a3e] dark:bg-tron-blue dark:text-tron-black dark:shadow-[0_18px_40px_rgba(102,252,241,0.32)] dark:hover:bg-tron-accent"
+            >
+              <Send className="h-4 w-4" />
+              RSVP
+            </Link>
+            <a
+              href={calendarUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-gilded-gold/60 px-7 py-3 text-sm uppercase tracking-[0.32em] text-warm-gray transition hover:bg-gilded-gold/10 dark:border-tron-blue/60 dark:text-tron-blue dark:hover:bg-tron-blue/10"
+            >
+              <CalendarPlus className="h-4 w-4" />
+              Add to calendar
+            </a>
+            <Link
+              to="/"
+              className="text-center text-xs uppercase tracking-[0.42em] text-warm-gray/75 underline-offset-4 hover:underline dark:text-tron-blue/70 sm:self-center"
+            >
+              Open wedding website
+            </Link>
+          </motion.div>
+
+          <p className="mt-12 flex items-center justify-center gap-2 text-[0.65rem] uppercase tracking-[0.4em] text-warm-gray/70 dark:font-tech dark:text-tron-blue/60">
+            <Heart className="h-3 w-3" />
+            With love, Angel & Seun
+          </p>
+        </div>
       </div>
     </motion.div>
   );
