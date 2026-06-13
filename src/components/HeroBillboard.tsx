@@ -11,6 +11,8 @@ interface HeroBillboardProps {
   date: string;
   onPlay?: () => void;
   onMoreInfo?: () => void;
+  lightBgImage?: string;
+  darkBgImage?: string;
 }
 
 export default function HeroBillboard({
@@ -20,6 +22,8 @@ export default function HeroBillboard({
   date,
   onPlay,
   onMoreInfo,
+  lightBgImage,
+  darkBgImage,
 }: HeroBillboardProps) {
   const { isDark } = useOutletContext<{ isDark: boolean }>();
 
@@ -28,10 +32,18 @@ export default function HeroBillboard({
       {/* Background */}
       <div className="absolute inset-0">
         {isDark ? (
-          // Tron grid background
           <div className="w-full h-full bg-tron-dark">
+            {darkBgImage ? (
+              <img
+                src={darkBgImage}
+                alt=""
+                aria-hidden="true"
+                className="absolute inset-0 h-full w-full object-cover opacity-40 mix-blend-luminosity"
+              />
+            ) : null}
+            {/* Tron grid over image */}
             <div
-              className="absolute inset-0 opacity-30"
+              className="absolute inset-0 opacity-25"
               style={{
                 backgroundImage: `
                   linear-gradient(rgba(102,252,241,0.1) 1px, transparent 1px),
@@ -40,19 +52,26 @@ export default function HeroBillboard({
                 backgroundSize: "50px 50px",
               }}
             />
-            {/* Glow orb */}
             <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-tron-blue/10 rounded-full blur-3xl" />
           </div>
         ) : (
-          // Timeless royal background
           <div className="w-full h-full">
-            <TimelessBackdrop variant="hero" />
+            {lightBgImage ? (
+              <img
+                src={lightBgImage}
+                alt=""
+                aria-hidden="true"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            ) : (
+              <TimelessBackdrop variant="hero" />
+            )}
           </div>
         )}
       </div>
 
       {/* Gradient overlay for text readability */}
-      <div className="absolute inset-0 bg-gradient-to-t from-beige via-beige/30 to-transparent dark:from-tron-black dark:via-tron-black/40 dark:to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#f5ede0] via-[#f5ede0]/50 to-[#f5ede0]/10 dark:from-tron-black dark:via-tron-black/60 dark:to-tron-black/20" />
 
       {/* Content */}
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-8 pb-16 sm:pb-24 w-full">

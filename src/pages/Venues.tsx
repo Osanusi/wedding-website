@@ -7,31 +7,25 @@ import {
   Hotel,
   Bed,
   Landmark,
-  Camera,
 } from "lucide-react";
 import PageTransition from "../components/PageTransition";
-import NetflixRow from "../components/NetflixRow";
-import NetflixCard from "../components/NetflixCard";
 import { weddingDetails } from "../data/weddingDetails";
 
 const venueHighlights = [
   {
     title: "Private Estate Setting",
-    subtitle: "55 acres in Northern Virginia",
+    description: "55 acres of rolling countryside in Loudoun County, Northern Virginia.",
     icon: Building2,
-    iconVariant: "sage",
   },
   {
     title: "Indoor & Outdoor Flow",
-    subtitle: "Ceremony, cocktail hour, and reception spaces",
+    description: "Ceremony, cocktail hour, and reception spaces across the manor grounds.",
     icon: Landmark,
-    iconVariant: "blue",
   },
   {
-    title: "Picture-Perfect Backdrop",
-    subtitle: "Rolling views, gardens, and manor architecture",
-    icon: Camera,
-    iconVariant: "cream",
+    title: "Scenic Views",
+    description: "Rolling hills, gardens, and manor architecture as your backdrop all day.",
+    icon: MapPin,
   },
 ];
 
@@ -213,17 +207,40 @@ export default function Venues() {
         </motion.div>
       </section>
 
-      <NetflixRow title="Beacon Hill Manor Highlights">
-        {venueHighlights.map((highlight) => (
-          <NetflixCard
-            key={highlight.title}
-            title={highlight.title}
-            subtitle={highlight.subtitle}
-            icon={highlight.icon}
-            iconVariant={highlight.iconVariant}
-          />
-        ))}
-      </NetflixRow>
+      {/* Venue highlights — 3 cards */}
+      <section className="max-w-5xl mx-auto px-4 pb-10">
+        <div className="grid gap-4 sm:grid-cols-3">
+          {venueHighlights.map((h, i) => {
+            const Icon = h.icon;
+            return (
+              <motion.div
+                key={h.title}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.07 }}
+                className={`rounded-2xl border p-5 ${
+                  isDark
+                    ? "border-tron-blue/15 bg-tron-grid/60"
+                    : "border-sage/20 bg-white/80 shadow-md"
+                }`}
+              >
+                <div className={`inline-flex h-10 w-10 items-center justify-center rounded-xl ${
+                  isDark ? "bg-tron-blue/15 text-tron-blue" : "bg-sage/20 text-dusty-blue"
+                }`}>
+                  <Icon size={18} />
+                </div>
+                <h4 className={`mt-4 font-semibold ${
+                  isDark ? "text-tron-blue font-tech" : "text-dusty-blue font-serif"
+                }`}>{h.title}</h4>
+                <p className={`mt-2 text-sm leading-relaxed ${
+                  isDark ? "text-gray-400" : "text-warm-gray"
+                }`}>{h.description}</p>
+              </motion.div>
+            );
+          })}
+        </div>
+      </section>
 
       <section className="max-w-5xl mx-auto px-4 pb-12">
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
@@ -250,58 +267,52 @@ export default function Venues() {
         </div>
       </section>
 
-      {/* Accommodations Carousel */}
-      <NetflixRow title="Where to Stay">
-        {hotels.map((hotel) => (
-          <NetflixCard
-            key={hotel.title}
-            title={hotel.title}
-            subtitle={hotel.subtitle}
-            icon={hotel.icon}
-            iconVariant={hotel.iconVariant}
-          />
-        ))}
-      </NetflixRow>
-
-      {/* Accommodation Details */}
-      <section className="max-w-4xl mx-auto px-4 pb-20">
+      {/* Where to Stay — editorial cards, no carousel */}
+      <section className="max-w-4xl mx-auto px-4 pb-8">
+        <motion.h2
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.45 }}
+          className={`text-2xl font-semibold mb-6 ${
+            isDark ? "font-tech text-tron-blue" : "font-serif text-dusty-blue"
+          }`}
+        >
+          Where to Stay
+        </motion.h2>
         <div className="grid sm:grid-cols-2 gap-4">
-          {hotels.map((hotel) => (
-            <div
-              key={hotel.title}
-              className={`p-5 rounded-xl ${
-                isDark
-                  ? "bg-tron-grid/50 border border-tron-blue/5"
-                  : "bg-white/60 border border-sage/10"
-              }`}
-            >
-              <h4
-                className={`font-semibold ${isDark ? "text-gray-200" : "text-dusty-blue"}`}
-              >
-                {hotel.title}
-              </h4>
-              <p
-                className={`text-xs mt-1 ${isDark ? "text-tron-accent" : "text-sage"}`}
-              >
-                {hotel.subtitle}
-              </p>
-              <p
-                className={`text-sm mt-2 ${isDark ? "text-gray-500" : "text-warm-gray"}`}
-              >
-                {hotel.description}
-              </p>
-              <a
-                href={hotel.bookUrl}
-                className={`inline-block mt-3 text-sm font-medium ${
+          {hotels.map((hotel, i) => {
+            const Icon = hotel.icon;
+            return (
+              <motion.div
+                key={hotel.title}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.06 }}
+                className={`rounded-2xl border p-5 ${
                   isDark
-                    ? "text-tron-blue hover:text-tron-blue/80"
-                    : "text-dusty-blue hover:text-dusty-blue/80"
+                    ? "border-tron-blue/15 bg-tron-grid/55"
+                    : "border-sage/15 bg-white/75 shadow-sm"
                 }`}
               >
-                Book Now →
-              </a>
-            </div>
-          ))}
+                <div className={`inline-flex h-9 w-9 items-center justify-center rounded-xl ${
+                  isDark ? "bg-tron-blue/15 text-tron-blue" : "bg-sage/20 text-dusty-blue"
+                }`}>
+                  <Icon size={16} />
+                </div>
+                <h4 className={`mt-3 font-semibold ${
+                  isDark ? "text-gray-200" : "text-dusty-blue"
+                }`}>{hotel.title}</h4>
+                <p className={`text-xs mt-1 ${
+                  isDark ? "text-tron-accent" : "text-sage"
+                }`}>{hotel.subtitle}</p>
+                <p className={`text-sm mt-2 leading-relaxed ${
+                  isDark ? "text-gray-500" : "text-warm-gray"
+                }`}>{hotel.description}</p>
+              </motion.div>
+            );
+          })}
         </div>
       </section>
     </PageTransition>
