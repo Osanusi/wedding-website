@@ -1087,7 +1087,7 @@ function InvitationCard({
             <ol className="relative mt-6 border-l border-gilded-gold/40 pl-6 dark:border-tron-blue/40">
               {eveningMoments.map((moment) => (
                 <li key={moment.title} className="relative pb-6 last:pb-0">
-                  <span className="absolute -left-[7px] top-2 h-2.5 w-2.5 rounded-full bg-gilded-gold shadow-[0_0_0_3px_rgba(184,143,74,0.18)] dark:bg-tron-blue dark:shadow-[0_0_0_3px_rgba(102,252,241,0.22)]" />
+                  <span className="absolute -left-[29px] top-2 h-2.5 w-2.5 rounded-full bg-gilded-gold shadow-[0_0_0_3px_rgba(184,143,74,0.18)] dark:bg-tron-blue dark:shadow-[0_0_0_3px_rgba(102,252,241,0.22)]" />
                   <p className="text-xs uppercase tracking-[0.35em] text-warm-gray/75 dark:text-tron-blue/70">
                     {moment.time}
                   </p>

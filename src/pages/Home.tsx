@@ -9,65 +9,23 @@ import {
 } from "framer-motion";
 import { Sun, Moon } from "lucide-react";
 import {
-  Coffee,
-  Star,
-  Plane,
-  Home as HomeIcon,
-  Gem,
-  Wine,
-  Church,
+  Heart,
+  CalendarDays,
+  Gift,
+  MessageSquare,
+  MapPin,
+  ArrowRight,
   PartyPopper,
-  Music,
-  UtensilsCrossed,
-  ChefHat,
+  Clock3,
+  Users,
 } from "lucide-react";
 import PageTransition from "../components/PageTransition";
 import HeroBillboard from "../components/HeroBillboard";
 import NetflixRow from "../components/NetflixRow";
-import NetflixCard from "../components/NetflixCard";
 import PartySpotlightCard from "../components/PartySpotlightCard";
 import TimelessBackdrop from "../components/TimelessBackdrop";
 import type { PartyMember } from "../components/PartySpotlightCard";
 import { weddingDetails } from "../data/weddingDetails";
-
-const storyCards = [
-  {
-    title: "How We Met",
-    subtitle: "A chance encounter at a coffee shop",
-    icon: Coffee,
-    iconVariant: "sage",
-  },
-  {
-    title: "First Date",
-    subtitle: "Dinner under the stars",
-    icon: Star,
-    iconVariant: "blue",
-  },
-  {
-    title: "The Trip",
-    subtitle: "Two weeks in Italy changed everything",
-    icon: Plane,
-    iconVariant: "cream",
-  },
-  {
-    title: "Moving In",
-    subtitle: "Our first home together",
-    icon: HomeIcon,
-    iconVariant: "blush",
-  },
-  {
-    title: "The Proposal",
-    subtitle: "On a cliffside at sunset",
-    icon: Gem,
-    iconVariant: "blue",
-  },
-  {
-    title: "Engagement Party",
-    subtitle: "Celebrating with loved ones",
-    icon: Wine,
-    iconVariant: "sage",
-  },
-];
 
 const partyMembers: PartyMember[] = [
   {
@@ -102,64 +60,56 @@ const partyMembers: PartyMember[] = [
   { name: "James H.", role: "Groomsman", tagline: "Calm, cool, collected" },
 ];
 
-const eventCards = [
+const homeLinks = [
   {
-    title: "Ceremony",
-    subtitle: "12:00 PM — Immaculate Conception Church",
-    icon: Church,
-    iconVariant: "sage",
+    title: "Our Story",
+    description: "How we met, fell in love, and arrived at forever.",
+    path: "/our-story",
+    icon: Heart,
+    kicker: "Journey",
   },
   {
-    title: "Cocktail Hour",
-    subtitle: "3:30 PM – 4:30 PM — Beacon Hill Manor",
-    icon: Wine,
-    iconVariant: "blue",
+    title: "Wedding Day",
+    description: "See the full timeline and where each moment happens.",
+    path: "/wedding-day",
+    icon: CalendarDays,
+    kicker: "Timeline",
   },
   {
-    title: "Reception",
-    subtitle: "5:30 PM – 6:30 PM — Beacon Hill Manor",
+    title: "Venues",
+    description: "Directions, logistics, and all the location details.",
+    path: "/venues",
+    icon: MapPin,
+    kicker: "Locations",
+  },
+  {
+    title: "Registry",
+    description: "Simple cash registry with secure payment options.",
+    path: "/registry",
+    icon: Gift,
+    kicker: "Gifts",
+  },
+  {
+    title: "RSVP",
+    description: "Let us know if you can make it and your transport preference.",
+    path: "/rsvp",
     icon: PartyPopper,
-    iconVariant: "cream",
+    kicker: "Respond",
   },
   {
-    title: "First Dance",
-    subtitle: "7:00 PM — A moment to remember",
-    icon: Music,
-    iconVariant: "blush",
-  },
-  {
-    title: "Dinner",
-    subtitle: "7:00 PM — Buffet dinner",
-    icon: UtensilsCrossed,
-    iconVariant: "sage",
-  },
-  {
-    title: "Dancing & Party",
-    subtitle: "9:00 PM — Until midnight",
-    icon: Music,
-    iconVariant: "blue",
+    title: "Contact",
+    description: "Questions, travel notes, or anything else we can help with.",
+    path: "/contact",
+    icon: MessageSquare,
+    kicker: "Support",
   },
 ];
 
-const registryCards = [
-  {
-    title: "Newlywed Cash Fund",
-    subtitle: "Contribute any amount you wish",
-    icon: ChefHat,
-    iconVariant: "sage",
-  },
-  {
-    title: "Home Fund",
-    subtitle: "Help us settle into our home",
-    icon: HomeIcon,
-    iconVariant: "cream",
-  },
-  {
-    title: "Honeymoon Fund",
-    subtitle: "Fuel our first getaway as newlyweds",
-    icon: Plane,
-    iconVariant: "blue",
-  },
+const highlightStats = [
+  { label: "The Date", value: "Aug 29", icon: CalendarDays },
+  { label: "Venues", value: "2", icon: MapPin },
+  { label: "Wedding Party", value: "8", icon: Users },
+  { label: "Days to Go", value: "78", icon: Clock3 },
 ];
 
 export default function Home() {
@@ -174,7 +124,7 @@ export default function Home() {
     () => navigate("/wedding-day"),
     [navigate],
   );
-  const goToRegistry = useCallback(() => navigate("/registry"), [navigate]);
+  const goToPath = useCallback((path: string) => navigate(path), [navigate]);
   const switchToLight = useCallback(() => setIsDark(false), [setIsDark]);
   const switchToDark = useCallback(() => setIsDark(true), [setIsDark]);
 
@@ -340,58 +290,214 @@ export default function Home() {
           date={weddingDetails.dateDisplay}
           onPlay={goToOurStory}
           onMoreInfo={goToWeddingDay}
+          lightBgImage={weddingDetails.images.aerialView}
+          darkBgImage={weddingDetails.images.manorExterior}
         />
 
-        <div className="py-8 space-y-4">
-          <NetflixRow title="Our Story">
-            {storyCards.map((card) => (
-              <NetflixCard
-                key={card.title}
-                title={card.title}
-                subtitle={card.subtitle}
-                icon={card.icon}
-                iconVariant={card.iconVariant}
-                onClick={goToOurStory}
-              />
-            ))}
-          </NetflixRow>
-
+        {/* ── 1. Wedding Party carousel — full width ── */}
+        <motion.section
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="pt-8 pb-2"
+        >
           <NetflixRow title="Wedding Party">
             {partyMembers.map((member) => (
-              <PartySpotlightCard
-                key={member.name}
-                member={member}
-                isDark={isDark}
-              />
+              <PartySpotlightCard key={member.name} member={member} isDark={isDark} />
             ))}
           </NetflixRow>
+        </motion.section>
 
-          <NetflixRow title="The Big Day">
-            {eventCards.map((card) => (
-              <NetflixCard
-                key={card.title}
-                title={card.title}
-                subtitle={card.subtitle}
-                icon={card.icon}
-                iconVariant={card.iconVariant}
+        {/* ── 2. Stats strip — edge to edge ── */}
+        <motion.section
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.55 }}
+          className={`mt-10 border-y py-8 ${isDark ? "border-tron-blue/15 bg-tron-grid/40" : "border-sage/20 bg-white/60"}`}
+        >
+          <div className="mx-auto grid max-w-screen-xl grid-cols-2 gap-6 px-6 sm:grid-cols-4 sm:px-10">
+            {highlightStats.map((item, i) => {
+              const Icon = item.icon;
+              return (
+                <motion.div
+                  key={item.label}
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.06 }}
+                  className="text-center"
+                >
+                  <div className={`mx-auto inline-flex h-9 w-9 items-center justify-center rounded-xl ${isDark ? "bg-tron-blue/15 text-tron-blue" : "bg-sage/20 text-dusty-blue"}`}>
+                    <Icon size={17} />
+                  </div>
+                  <p className={`mt-3 text-3xl font-bold ${isDark ? "font-tech text-tron-blue" : "font-serif text-dusty-blue"}`}>
+                    {item.value}
+                  </p>
+                  <p className={`mt-1 text-[0.62rem] uppercase tracking-[0.3em] ${isDark ? "text-tron-accent" : "text-sage"}`}>
+                    {item.label}
+                  </p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </motion.section>
+
+        {/* ── 3. Editorial split — text + venue photo collage ── */}
+        <motion.section
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mt-10 grid min-h-[480px] gap-0 lg:grid-cols-2"
+        >
+          <div className={`flex flex-col justify-center px-6 py-12 sm:px-10 lg:py-16 ${isDark ? "bg-tron-grid/60" : "bg-white/82"}`}>
+            <p className={`text-xs uppercase tracking-[0.36em] ${isDark ? "font-tech text-tron-accent" : "text-sage"}`}>
+              August 29, 2026
+            </p>
+            <h2 className={`mt-4 text-4xl leading-tight sm:text-5xl ${isDark ? "font-tech text-tron-blue" : "font-serif text-dusty-blue"}`}>
+              Two venues.<br />One celebration.
+            </h2>
+            <p className={`mt-5 max-w-md text-sm leading-relaxed sm:text-base ${isDark ? "text-gray-400" : "text-warm-gray"}`}>
+              The ceremony begins at noon at{" "}
+              <span className={isDark ? "text-tron-blue" : "text-dusty-blue"}>Immaculate Conception Church</span>{" "}
+              in Washington, DC, followed by an afternoon cocktail hour and
+              evening reception at{" "}
+              <span className={isDark ? "text-tron-blue" : "text-dusty-blue"}>Beacon Hill Manor</span>{" "}
+              in Paeonian Springs, Virginia.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <button
                 onClick={goToWeddingDay}
-              />
-            ))}
-          </NetflixRow>
+                className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.26em] transition cursor-pointer ${isDark ? "bg-tron-blue text-tron-black hover:bg-tron-accent" : "bg-dusty-blue text-white hover:bg-dusty-blue/90"}`}
+              >
+                Full Timeline <ArrowRight size={14} />
+              </button>
+              <button
+                onClick={() => goToPath("/venues")}
+                className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.26em] border transition cursor-pointer ${isDark ? "border-tron-blue/40 text-tron-blue hover:bg-tron-blue/10" : "border-dusty-blue/35 text-dusty-blue hover:bg-dusty-blue/8"}`}
+              >
+                Venues &amp; Directions
+              </button>
+            </div>
+          </div>
 
-          <NetflixRow title="Registry">
-            {registryCards.map((card) => (
-              <NetflixCard
-                key={card.title}
-                title={card.title}
-                subtitle={card.subtitle}
-                icon={card.icon}
-                iconVariant={card.iconVariant}
-                onClick={goToRegistry}
-              />
+          <div className="grid grid-cols-2 grid-rows-2 gap-1">
+            {[
+              weddingDetails.images.aerialView,
+              weddingDetails.images.gallery[1],
+              weddingDetails.images.gallery[2],
+              weddingDetails.images.manorExterior,
+            ].map((src, idx) => (
+              <motion.div
+                key={src}
+                initial={{ opacity: 0, scale: 0.97 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.07 }}
+                className="overflow-hidden"
+              >
+                <img
+                  src={src}
+                  alt="Beacon Hill Manor"
+                  className={`h-full min-h-[180px] w-full object-cover transition-transform duration-700 hover:scale-105 ${isDark ? "brightness-[0.55] saturate-[0.6]" : "brightness-95"}`}
+                  loading="lazy"
+                />
+              </motion.div>
             ))}
-          </NetflixRow>
-        </div>
+          </div>
+        </motion.section>
+
+        {/* ── 4. Site nav cards — full width padded grid ── */}
+        <motion.section
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.55 }}
+          className="mt-10 px-5 sm:px-8 lg:px-10"
+        >
+          <div className="mb-6 flex items-baseline justify-between">
+            <p className={`text-xs uppercase tracking-[0.34em] ${isDark ? "font-tech text-tron-accent" : "text-sage"}`}>
+              Explore
+            </p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {homeLinks.map((link, i) => {
+              const Icon = link.icon;
+              return (
+                <motion.button
+                  key={link.title}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.05 }}
+                  onClick={() => goToPath(link.path)}
+                  className={`group rounded-2xl border p-5 text-left transition-all duration-200 cursor-pointer ${isDark ? "border-tron-blue/15 bg-tron-grid/50 hover:border-tron-blue/40 hover:-translate-y-0.5" : "border-sage/20 bg-white/80 hover:border-dusty-blue/35 hover:shadow-md hover:-translate-y-0.5"}`}
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className={`inline-flex h-10 w-10 items-center justify-center rounded-xl ${isDark ? "bg-tron-blue/15 text-tron-blue" : "bg-sage/20 text-dusty-blue"}`}>
+                      <Icon size={18} />
+                    </div>
+                    <span className={`text-[0.6rem] uppercase tracking-[0.3em] ${isDark ? "text-tron-accent" : "text-sage"}`}>{link.kicker}</span>
+                  </div>
+                  <h3 className={`mt-4 text-xl ${isDark ? "font-tech text-tron-blue" : "font-serif text-dusty-blue"}`}>{link.title}</h3>
+                  <p className={`mt-2 text-sm leading-relaxed ${isDark ? "text-gray-400" : "text-warm-gray"}`}>{link.description}</p>
+                  <span className={`mt-4 inline-flex items-center gap-1 text-xs uppercase tracking-[0.24em] ${isDark ? "text-tron-blue" : "text-dusty-blue"}`}>
+                    Open <ArrowRight size={13} className="transition-transform group-hover:translate-x-0.5" />
+                  </span>
+                </motion.button>
+              );
+            })}
+          </div>
+        </motion.section>
+
+        {/* ── 5. Venue photo grid — full width ── */}
+        <motion.section
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mt-14"
+        >
+          <div className="flex items-baseline justify-between px-5 pb-5 sm:px-8 lg:px-10">
+            <div>
+              <p className={`text-xs uppercase tracking-[0.34em] ${isDark ? "font-tech text-tron-accent" : "text-sage"}`}>The Venue</p>
+              <h3 className={`mt-2 text-2xl sm:text-3xl ${isDark ? "font-tech text-tron-blue" : "font-serif text-dusty-blue"}`}>
+                Beacon Hill Manor
+              </h3>
+            </div>
+            <button
+              onClick={() => goToPath("/venues")}
+              className={`text-xs uppercase tracking-[0.24em] ${isDark ? "text-tron-blue" : "text-dusty-blue"}`}
+            >
+              See Details →
+            </button>
+          </div>
+          <div className="grid grid-cols-2 gap-1 sm:grid-cols-3">
+            {weddingDetails.images.gallery.map((src, i) => (
+              <motion.div
+                key={src}
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: i * 0.05 }}
+                className={`overflow-hidden ${
+                  i === 0 ? "col-span-2 sm:col-span-1 sm:row-span-2" : ""
+                }`}
+              >
+                <img
+                  src={src}
+                  alt="Beacon Hill Manor"
+                  className={`h-full min-h-[180px] w-full object-cover transition-transform duration-700 hover:scale-105 ${
+                    isDark ? "brightness-[0.55] saturate-[0.6]" : "brightness-95"
+                  }`}
+                  loading="lazy"
+                />
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
 
         {/* Footer */}
         <footer
