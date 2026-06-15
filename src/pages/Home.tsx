@@ -208,17 +208,8 @@ export default function Home() {
               >
                 {/* Name with split coloring */}
                 <h1 className="text-5xl sm:text-7xl font-bold mb-2 relative">
-                  <span className="text-6xl sm:text-8xl text-dusty-blue">
-                    <span className="font-initial align-[0.02em]">A</span>
-                    <span className="font-medieval italic font-medium tracking-[0.03em]">
-                      ngel
-                    </span>
-                  </span>
-                  <span className="text-warm-gray dark:text-gray-500 mx-2 font-serif">
-                    &
-                  </span>
-                  <span className="font-tech text-tron-blue animate-glow-pulse">
-                    Seun
+                  <span className="font-serif text-dusty-blue dark:text-[#d6d1c8]">
+                    Angel &amp; Seun
                   </span>
                 </h1>
 
@@ -276,15 +267,7 @@ export default function Home() {
         <HeroBillboard
           title="Angel & Seun"
           titleNode={
-            <>
-              <span>
-                <span className="font-initial align-[0.02em]">A</span>
-                <span className="font-medieval italic font-medium tracking-[0.03em]">
-                  ngel
-                </span>
-              </span>
-              <span className={isDark ? "" : " font-serif"}> & Seun</span>
-            </>
+            <span className="font-serif">Angel &amp; Seun</span>
           }
           subtitle="Join us for the celebration of a lifetime. Two souls, one unforgettable evening."
           date={weddingDetails.dateDisplay}
@@ -508,14 +491,7 @@ export default function Home() {
           }`}
         >
           <p className={`text-sm ${isDark ? "font-tech" : "font-serif"}`}>
-            Made with love —{" "}
-            <span className="text-lg">
-              <span className="font-initial align-[0.02em]">A</span>
-              <span className="font-medieval italic font-medium tracking-[0.03em]">
-                ngel
-              </span>
-            </span>{" "}
-            & Seun, 2026
+            Made with love - <span className="text-lg font-serif">Angel &amp; Seun</span>, 2026
           </p>
         </footer>
       </PageTransition>

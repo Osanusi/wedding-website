@@ -215,7 +215,7 @@ function EnvelopeIntro({
         transition={{ delay: 0.25, duration: 0.7 }}
       >
         <p className="text-[0.65rem] uppercase tracking-[0.42em] text-warm-gray/80 dark:font-tech dark:text-tron-blue/80">
-          You are invited
+          We are getting married
         </p>
         <p className="mt-3 font-serif text-3xl text-warm-gray dark:text-tron-blue/90 sm:text-4xl">
           {weddingDetails.coupleNames}
@@ -395,15 +395,18 @@ function EnvelopeIntro({
           animate={{ scale: 1, rotate: 0 }}
           transition={{ delay: 0.7, duration: 0.65, ease: "backOut" }}
         >
-          <div>
-            <p className="text-[0.62rem] uppercase tracking-[0.42em] text-warm-gray/70 dark:font-tech dark:text-tron-blue/65">
-              Tap to open
+          <div className="flex flex-col items-center">
+            <p className="text-[0.58rem] uppercase tracking-[0.42em] text-warm-gray/70 dark:font-tech dark:text-tron-blue/70">
+              For a beautiful day
             </p>
-            <p className="mt-3 font-serif text-2xl text-warm-gray dark:text-tron-blue sm:text-3xl">
-              {guestName ? `Welcome, ${guestName}` : "Open Invitation"}
+            <p
+              className="mt-2 text-4xl leading-none text-gilded-gold dark:text-tron-blue sm:text-5xl"
+              style={{ fontFamily: "'Great Vibes', cursive" }}
+            >
+              celebration awaits
             </p>
-            <p className="mt-2 text-[0.68rem] uppercase tracking-[0.28em] text-warm-gray/70 dark:text-tron-blue/65">
-              Angel & Seun
+            <p className="mt-2 text-[0.58rem] uppercase tracking-[0.34em] text-warm-gray/70 dark:text-tron-blue/68">
+              with love and joy
             </p>
           </div>
         </motion.button>
@@ -421,7 +424,7 @@ function EnvelopeIntro({
           ease: "easeInOut",
         }}
       >
-        Tap the seal
+        Tap to open
       </motion.p>
     </motion.div>
   );
@@ -1025,26 +1028,31 @@ function InvitationCard({
             animate="show"
           >
             <Monogram className="h-18 w-18 text-gilded-gold dark:text-tron-blue sm:h-22 sm:w-22" />
-            <p className="mt-5 text-[0.68rem] uppercase tracking-[0.45em] text-warm-gray/85 dark:font-tech dark:text-tron-blue/80">
-              Together with our families
+            <p
+              className="mt-6 max-w-[14ch] text-3xl leading-none text-gilded-gold dark:text-tron-blue sm:text-4xl"
+              style={{ fontFamily: "'Great Vibes', cursive" }}
+            >
+              {guestName ?? "Dear guest"}
             </p>
             <h1 className="mt-4 max-w-[12ch] font-serif text-5xl leading-[0.92] text-warm-gray dark:text-tron-blue sm:text-6xl lg:text-7xl">
               {weddingDetails.coupleNames}
             </h1>
             <p className="mt-4 text-sm uppercase tracking-[0.34em] text-warm-gray/80 dark:text-tron-blue/70">
-              request the honour of your presence
+              request your presence
             </p>
             <p className="mt-6 font-serif text-2xl italic text-warm-gray dark:text-tron-blue/90 sm:text-3xl">
               {weddingDetails.dateLongDisplay}
             </p>
-            {guestName && (
-              <p
-                className="mt-6 max-w-[14ch] text-3xl leading-none text-gilded-gold dark:text-tron-blue sm:text-4xl"
-                style={{ fontFamily: "'Great Vibes', cursive" }}
-              >
-                for {guestName}
-              </p>
-            )}
+            <Link
+              to="/rsvp"
+              className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-gilded-gold px-7 py-3 text-sm uppercase tracking-[0.32em] text-cream shadow-[0_18px_40px_rgba(184,143,74,0.32)] transition hover:bg-[#9c7a3e] dark:bg-tron-blue dark:text-tron-black dark:shadow-[0_18px_40px_rgba(102,252,241,0.32)] dark:hover:bg-tron-accent"
+            >
+              <Send className="h-4 w-4" />
+              RSVP
+            </Link>
+            <p className="mt-5 text-[0.68rem] uppercase tracking-[0.34em] text-warm-gray/80 dark:font-tech dark:text-tron-blue/70">
+              to be held at
+            </p>
           </motion.div>
 
           {/* Two venues */}
@@ -1131,13 +1139,6 @@ function InvitationCard({
             animate="show"
             transition={{ delay: 0.36 }}
           >
-            <Link
-              to="/rsvp"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-gilded-gold px-7 py-3 text-sm uppercase tracking-[0.32em] text-cream shadow-[0_18px_40px_rgba(184,143,74,0.32)] transition hover:bg-[#9c7a3e] dark:bg-tron-blue dark:text-tron-black dark:shadow-[0_18px_40px_rgba(102,252,241,0.32)] dark:hover:bg-tron-accent"
-            >
-              <Send className="h-4 w-4" />
-              RSVP
-            </Link>
             <a
               href={calendarUrl}
               target="_blank"
