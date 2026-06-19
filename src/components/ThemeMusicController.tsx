@@ -202,6 +202,13 @@ export default function ThemeMusicController({
   const btnDark =
     "bg-tron-grid text-tron-blue hover:bg-tron-dark shadow-[0_0_15px_rgba(102,252,241,0.4)]";
 
+  const applyVolume = useCallback((nextVolume: number) => {
+    setVolume(nextVolume);
+    if (audioRef.current) audioRef.current.volume = nextVolume;
+    if (spotlightAudioRef.current) spotlightAudioRef.current.volume = nextVolume;
+    if (scratchRef.current) scratchRef.current.volume = Math.min(nextVolume * 1.2, 1);
+  }, []);
+
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
       if (
@@ -263,7 +270,8 @@ export default function ThemeMusicController({
             max="1"
             step="0.05"
             value={volume}
-            onChange={(e) => setVolume(parseFloat(e.target.value))}
+            onInput={(e) => applyVolume(parseFloat((e.target as HTMLInputElement).value))}
+            onChange={(e) => applyVolume(parseFloat(e.target.value))}
             className="volume-slider w-24 sm:w-32"
             aria-label="Volume"
           />
