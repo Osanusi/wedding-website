@@ -30,6 +30,8 @@ export const weddingDetails = {
   images: {
     venueHero:
       "https://img1.wsimg.com/isteam/ip/525a4c78-c2f6-437f-878e-2bd3a3ecb499/blob-8af07e6.png/:/rs=w:2046,h:1535",
+    churchExterior:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Basilica_of_the_National_Shrine_of_the_Immaculate_Conception.jpg?width=1600",
     manorExterior:
       "https://img1.wsimg.com/isteam/ip/525a4c78-c2f6-437f-878e-2bd3a3ecb499/BHM3.jpg/:/cr=t:12.5%25,l:0%25,w:100%25,h:75%25/rs=w:960,h:480,cg:true",
     aerialView:

@@ -37,6 +37,7 @@ export default function ThemeMusicController({
   const savedSrcRef = useRef("");
   const spotlightActiveRef = useRef(false);
   const spotlightEndTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const volumeHideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const tracks = isDark ? darkTracks : lightTracks;
 
@@ -201,6 +202,32 @@ export default function ThemeMusicController({
   const btnDark =
     "bg-tron-grid text-tron-blue hover:bg-tron-dark shadow-[0_0_15px_rgba(102,252,241,0.4)]";
 
+  const clearVolumeHideTimer = useCallback(() => {
+    if (volumeHideTimerRef.current) {
+      clearTimeout(volumeHideTimerRef.current);
+      volumeHideTimerRef.current = null;
+    }
+  }, []);
+
+  const openVolumePanel = useCallback(() => {
+    clearVolumeHideTimer();
+    setShowVolume(true);
+  }, [clearVolumeHideTimer]);
+
+  const closeVolumePanelWithDelay = useCallback((delay = 1600) => {
+    clearVolumeHideTimer();
+    volumeHideTimerRef.current = setTimeout(() => {
+      setShowVolume(false);
+      volumeHideTimerRef.current = null;
+    }, delay);
+  }, [clearVolumeHideTimer]);
+
+  useEffect(() => {
+    return () => {
+      clearVolumeHideTimer();
+    };
+  }, [clearVolumeHideTimer]);
+
   return (
     <div className="fixed bottom-6 right-6 flex items-end gap-3 z-50">
       {/* Hidden audio elements */}
@@ -208,15 +235,17 @@ export default function ThemeMusicController({
       <audio ref={scratchRef} src={SCRATCH_SRC} preload="auto" />
       <audio ref={spotlightAudioRef} />
 
-      {/* Volume slider — expands horizontally on hover */}
+      {/* Volume slider — stays open long enough to adjust and opens above controls */}
       <div
-        className="relative flex items-center"
-        onMouseEnter={() => setShowVolume(true)}
-        onMouseLeave={() => setShowVolume(false)}
+        className="relative flex items-center pb-2 -mb-2"
+        onMouseEnter={openVolumePanel}
+        onMouseLeave={() => closeVolumePanelWithDelay()}
       >
         {showVolume && (
           <div
-            className={`absolute right-full mr-2 px-3 py-2 rounded-xl flex items-center ${
+            onMouseEnter={openVolumePanel}
+            onMouseLeave={() => closeVolumePanelWithDelay()}
+            className={`absolute bottom-full right-0 mb-2 px-3 py-2 rounded-xl flex items-center ${
               isDark
                 ? "bg-tron-grid border border-tron-blue/20"
                 : "bg-cream border border-sage/20 shadow-lg"
@@ -228,8 +257,13 @@ export default function ThemeMusicController({
               max="1"
               step="0.05"
               value={volume}
-              onChange={(e) => setVolume(parseFloat(e.target.value))}
-              className="volume-slider w-24"
+              onChange={(e) => {
+                setVolume(parseFloat(e.target.value));
+                openVolumePanel();
+              }}
+              onMouseDown={openVolumePanel}
+              onTouchStart={openVolumePanel}
+              className="volume-slider w-32"
               aria-label="Volume"
             />
           </div>

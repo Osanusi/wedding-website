@@ -51,15 +51,10 @@ const eveningMoments = [
     detail: "Vows beneath vaulted arches, with the people we love.",
   },
   {
-    time: "3:30 PM - 4:30 PM",
-    title: "Cocktail Hour",
-    detail:
-      "Gather at Beacon Hill Manor for cocktails, passed bites, and mingling.",
-  },
-  {
-    time: "5:30 PM - 6:30 PM",
+    time: "3:30 PM",
     title: "Reception",
-    detail: "Toasts, celebration, and then a buffet dinner and dancing.",
+    detail:
+      "Reception begins at Beacon Hill Manor with cocktails, toasts, and celebration.",
   },
 ];
 
@@ -644,7 +639,7 @@ function CathedralScene({ isDark }: { isDark: boolean }) {
         kicker="The ceremony"
         title={weddingDetails.ceremonyVenue.name}
         subtitle={weddingDetails.ceremonyVenue.region}
-        timing="4:00 PM"
+        timing="12:00 PM"
       />
     </motion.div>
   );
@@ -943,7 +938,7 @@ function ManorScene({ isDark }: { isDark: boolean }) {
         kicker="The celebration"
         title={weddingDetails.venue.name}
         subtitle={weddingDetails.venue.region}
-        timing="5:30 PM"
+        timing="3:30 PM"
       />
     </motion.div>
   );
@@ -1072,7 +1067,7 @@ function InvitationCard({
               websiteUrl={weddingDetails.ceremonyVenue.websiteUrl}
             />
             <VenueCard
-              kicker="Reception · 5:30 PM - 6:30 PM"
+              kicker="Reception · 3:30 PM"
               name={weddingDetails.venue.name}
               line={`${weddingDetails.venue.addressLine1}, ${weddingDetails.venue.addressLine2}`}
               description={weddingDetails.venue.description}

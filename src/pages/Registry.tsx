@@ -7,6 +7,7 @@ import {
   Wallet,
   Heart,
   Home,
+  Sparkles,
 } from "lucide-react";
 import PageTransition from "../components/PageTransition";
 
@@ -71,8 +72,41 @@ export default function Registry() {
         </p>
       </section>
 
+      <section className="max-w-5xl mx-auto px-4 pb-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className={`relative overflow-hidden rounded-3xl border p-7 sm:p-9 ${
+            isDark
+              ? "border-tron-blue/20 bg-gradient-to-br from-tron-grid via-tron-dark to-tron-grid"
+              : "border-sage/25 bg-gradient-to-br from-[#fff8ee] via-[#f8efe1] to-[#f2e6d4]"
+          }`}
+        >
+          <div className="pointer-events-none absolute -right-14 -top-14 h-40 w-40 rounded-full bg-gilded-gold/15 blur-2xl" />
+          <div className="pointer-events-none absolute -bottom-16 -left-10 h-44 w-44 rounded-full bg-dusty-blue/20 blur-2xl" />
+          <div className="relative flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+            <div className="max-w-2xl">
+              <p className={`text-xs uppercase tracking-[0.32em] ${isDark ? "font-tech text-tron-accent" : "text-sage"}`}>
+                Cash Registry
+              </p>
+              <h2 className={`mt-3 text-3xl sm:text-4xl ${isDark ? "font-tech text-tron-blue" : "font-serif text-dusty-blue"}`}>
+                Build a home. Begin new adventures.
+              </h2>
+              <p className={`mt-3 text-sm sm:text-base leading-relaxed ${isDark ? "text-gray-400" : "text-warm-gray"}`}>
+                Each contribution helps us start married life with intention, from everyday home essentials to unforgettable honeymoon memories.
+              </p>
+            </div>
+            <div className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs uppercase tracking-[0.22em] ${isDark ? "border border-tron-blue/35 text-tron-blue" : "border border-dusty-blue/30 text-dusty-blue"}`}>
+              <Sparkles size={14} />
+              Thank you
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
       {/* Categories */}
-      <section className="max-w-4xl mx-auto px-4 pb-12 space-y-6">
+      <section className="max-w-5xl mx-auto px-4 pb-12 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
         {categories.map((cat, index) => {
           const Icon = cat.icon;
           return (
@@ -82,14 +116,15 @@ export default function Registry() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className={`p-6 sm:p-8 rounded-2xl flex flex-col sm:flex-row gap-6 ${
+              className={`group relative overflow-hidden p-6 sm:p-7 rounded-2xl flex flex-col gap-6 ${
                 isDark
-                  ? "bg-tron-grid border border-tron-blue/10 hover:border-tron-blue/30"
-                  : "bg-white/80 border border-sage/20 shadow-lg hover:shadow-xl"
-              } transition-all duration-300`}
+                  ? "bg-tron-grid border border-tron-blue/15 hover:border-tron-blue/40"
+                  : "bg-white/85 border border-sage/20 shadow-lg hover:shadow-xl"
+              } transition-all duration-300 hover:-translate-y-0.5`}
             >
+              <div className={`pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full blur-xl transition-opacity duration-300 ${isDark ? "bg-tron-blue/10 opacity-70 group-hover:opacity-100" : "bg-gilded-gold/15 opacity-80 group-hover:opacity-100"}`} />
               <div
-                className={`w-14 h-14 flex-shrink-0 rounded-xl flex items-center justify-center ${
+                className={`relative w-14 h-14 flex-shrink-0 rounded-xl flex items-center justify-center ${
                   isDark
                     ? "bg-tron-blue/10 text-tron-blue"
                     : "bg-sage/20 text-dusty-blue"
@@ -116,7 +151,7 @@ export default function Registry() {
                   <p
                     className={`mt-4 text-xs font-semibold uppercase tracking-[0.2em] ${isDark ? "text-tron-accent" : "text-sage"}`}
                   >
-                    In person at the wedding venue
+                    Cash or check at the wedding venue
                   </p>
                 ) : (
                   <button
