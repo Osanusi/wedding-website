@@ -29,35 +29,55 @@ import { weddingDetails } from "../data/weddingDetails";
 
 const partyMembers: PartyMember[] = [
   {
-    name: "Sarah M.",
-    role: "Maid of Honor",
-    tagline: "BFF since day one",
-    themeSong: "/audio/party/sarah.mp3",
-  },
-  {
-    name: "Emily R.",
+    name: "Mae D",
     role: "Bridesmaid",
-    tagline: "Always the life of the party",
+    tagline: "Bridesmaid",
   },
   {
-    name: "Jessica L.",
+    name: "Maria P",
     role: "Bridesmaid",
-    tagline: "The one who cries at everything",
+    tagline: "Bridesmaid",
   },
   {
-    name: "Mike T.",
+    name: "Irish D",
+    role: "Bridesmaid",
+    tagline: "Bridesmaid",
+  },
+  {
+    name: "Alyssa",
+    role: "Bridesmaid",
+    tagline: "Bridesmaid",
+  },
+  {
+    name: "Angelique S",
+    role: "Bridesmaid",
+    tagline: "Bridesmaid",
+  },
+  {
+    name: "Katie S",
+    role: "Bridesmaid",
+    tagline: "Bridesmaid",
+  },
+  {
+    name: "Melinda",
+    role: "Bridesmaid",
+    tagline: "Bridesmaid",
+  },
+  {
+    name: "Ryan N",
     role: "Best Man",
-    tagline: "Keeper of the ring",
-    themeSong: "/audio/party/mike.mp3",
+    tagline: "Best Man",
   },
-  { name: "David K.", role: "Groomsman", tagline: "Dance floor legend" },
-  { name: "Chris W.", role: "Groomsman", tagline: "Always with a joke ready" },
-  {
-    name: "Rachel B.",
-    role: "Bridesmaid",
-    tagline: "The planner of all plans",
-  },
-  { name: "James H.", role: "Groomsman", tagline: "Calm, cool, collected" },
+  { name: "Manjo P", role: "Groomsman", tagline: "Groomsman" },
+  { name: "Gami P", role: "Groomsman", tagline: "Groomsman" },
+  { name: "Jared P", role: "Groomsman", tagline: "Groomsman" },
+  { name: "Cameron S", role: "Groomsman", tagline: "Groomsman" },
+  { name: "Gideon", role: "Groomsman", tagline: "Groomsman" },
+  { name: "Vincent D", role: "Groomsman", tagline: "Groomsman" },
+  { name: "Mark D", role: "Groomsman", tagline: "Groomsman" },
+  { name: "Brian D", role: "Groomsman", tagline: "Groomsman" },
+  { name: "Mlyard A", role: "Groomsman", tagline: "Groomsman" },
+  { name: "Danny C", role: "Groomsman", tagline: "Groomsman" },
 ];
 
 const homeLinks = [
@@ -108,7 +128,7 @@ const homeLinks = [
 const highlightStats = [
   { label: "The Date", value: "Aug 29", icon: CalendarDays },
   { label: "Venues", value: "2", icon: MapPin },
-  { label: "Wedding Party", value: "8", icon: Users },
+  { label: "Wedding Party", value: "18", icon: Users },
   { label: "Days to Go", value: "78", icon: Clock3 },
 ];
 

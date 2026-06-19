@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from "react";
-import { Volume2, VolumeX, Moon, Sun, SkipForward } from "lucide-react";
+import { Volume2, VolumeX, Moon, Sun, SkipForward, Play, Pause } from "lucide-react";
 
 // ─── Drop MP3s into public/audio/ and list them here ───
 const lightTracks = [
@@ -33,11 +33,11 @@ export default function ThemeMusicController({
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const scratchRef = useRef<HTMLAudioElement | null>(null);
   const spotlightAudioRef = useRef<HTMLAudioElement | null>(null);
+  const controlsRef = useRef<HTMLDivElement | null>(null);
   const savedTimeRef = useRef(0);
   const savedSrcRef = useRef("");
   const spotlightActiveRef = useRef(false);
   const spotlightEndTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const volumeHideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const tracks = isDark ? darkTracks : lightTracks;
 
@@ -202,82 +202,73 @@ export default function ThemeMusicController({
   const btnDark =
     "bg-tron-grid text-tron-blue hover:bg-tron-dark shadow-[0_0_15px_rgba(102,252,241,0.4)]";
 
-  const clearVolumeHideTimer = useCallback(() => {
-    if (volumeHideTimerRef.current) {
-      clearTimeout(volumeHideTimerRef.current);
-      volumeHideTimerRef.current = null;
-    }
-  }, []);
-
-  const openVolumePanel = useCallback(() => {
-    clearVolumeHideTimer();
-    setShowVolume(true);
-  }, [clearVolumeHideTimer]);
-
-  const closeVolumePanelWithDelay = useCallback((delay = 1600) => {
-    clearVolumeHideTimer();
-    volumeHideTimerRef.current = setTimeout(() => {
-      setShowVolume(false);
-      volumeHideTimerRef.current = null;
-    }, delay);
-  }, [clearVolumeHideTimer]);
-
   useEffect(() => {
-    return () => {
-      clearVolumeHideTimer();
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        showVolume &&
+        controlsRef.current &&
+        !controlsRef.current.contains(event.target as Node)
+      ) {
+        setShowVolume(false);
+      }
     };
-  }, [clearVolumeHideTimer]);
+
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, [showVolume]);
 
   return (
-    <div className="fixed bottom-6 right-6 flex items-end gap-3 z-50">
+    <div
+      ref={controlsRef}
+      className={`fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-2xl border px-2 py-2 backdrop-blur ${
+        isDark
+          ? "border-tron-blue/30 bg-tron-dark/85"
+          : "border-sage/25 bg-cream/90 shadow-lg"
+      }`}
+    >
       {/* Hidden audio elements */}
       <audio ref={audioRef} loop={tracks.length <= 1} onEnded={handleEnded} />
       <audio ref={scratchRef} src={SCRATCH_SRC} preload="auto" />
       <audio ref={spotlightAudioRef} />
 
-      {/* Volume slider — stays open long enough to adjust and opens above controls */}
-      <div
-        className="relative flex items-center pb-2 -mb-2"
-        onMouseEnter={openVolumePanel}
-        onMouseLeave={() => closeVolumePanelWithDelay()}
+      <button
+        onClick={toggleMusic}
+        className={`${btnBase} ${isDark ? btnDark : btnLight}`}
+        aria-label={
+          isPlaying ? "Pause background music" : "Play background music"
+        }
       >
-        {showVolume && (
-          <div
-            onMouseEnter={openVolumePanel}
-            onMouseLeave={() => closeVolumePanelWithDelay()}
-            className={`absolute bottom-full right-0 mb-2 px-3 py-2 rounded-xl flex items-center ${
-              isDark
-                ? "bg-tron-grid border border-tron-blue/20"
-                : "bg-cream border border-sage/20 shadow-lg"
-            }`}
-          >
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.05"
-              value={volume}
-              onChange={(e) => {
-                setVolume(parseFloat(e.target.value));
-                openVolumePanel();
-              }}
-              onMouseDown={openVolumePanel}
-              onTouchStart={openVolumePanel}
-              className="volume-slider w-32"
-              aria-label="Volume"
-            />
-          </div>
-        )}
-        <button
-          onClick={toggleMusic}
-          className={`${btnBase} ${isDark ? btnDark : btnLight}`}
-          aria-label={
-            isPlaying ? "Pause background music" : "Play background music"
-          }
+        {isPlaying ? <Pause size={20} /> : <Play size={20} />}
+      </button>
+
+      <button
+        onClick={() => setShowVolume((prev) => !prev)}
+        className={`${btnBase} ${isDark ? btnDark : btnLight}`}
+        aria-label={showVolume ? "Hide volume slider" : "Show volume slider"}
+      >
+        {volume > 0 ? <Volume2 size={20} /> : <VolumeX size={20} />}
+      </button>
+
+      {showVolume && (
+        <div
+          className={`flex items-center rounded-xl px-3 py-2 ${
+            isDark
+              ? "bg-tron-grid/80 border border-tron-blue/20"
+              : "bg-white/80 border border-sage/25"
+          }`}
         >
-          {isPlaying ? <Volume2 size={20} /> : <VolumeX size={20} />}
-        </button>
-      </div>
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.05"
+            value={volume}
+            onChange={(e) => setVolume(parseFloat(e.target.value))}
+            className="volume-slider w-24 sm:w-32"
+            aria-label="Volume"
+          />
+        </div>
+      )}
 
       {tracks.length > 1 && (
         <button
