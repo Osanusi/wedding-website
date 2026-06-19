@@ -12,15 +12,15 @@ const faqs = [
   },
   {
     q: "Is there parking at the venue?",
-    a: `${weddingDetails.venue.name} has guest parking available on site. We will share any final parking or arrival notes closer to the wedding date.`,
+    a: `${weddingDetails.venue.name} has plenty of on-site parking, with space for up to 65 cars.`,
   },
   {
     q: "Are children welcome?",
-    a: "While we love your little ones, our ceremony and reception will be an adults-only celebration. We hope this gives you a wonderful excuse for a night out!",
+    a: "Yes, children are welcome to celebrate with us.",
   },
   {
     q: "What if I have dietary restrictions?",
-    a: "Please note any dietary restrictions in your RSVP. Our caterers are experienced with all dietary needs including vegan, gluten-free, and allergy accommodations.",
+    a: "Please let us know any dietary needs in your RSVP so we can plan accordingly.",
   },
   {
     q: "When should I RSVP by?",

@@ -4,53 +4,46 @@ import PageTransition from "../components/PageTransition";
 
 const milestones = [
   {
-    year: "2021",
-    title: "How We Met",
+    year: "The Beginning",
+    title: "A Friendsgiving Plot Twist",
     description:
-      "A rainy Tuesday afternoon at Lighthouse Coffee. Angel ordered a cortado; Seun reached for the same cup. The rest, as they say, is history.",
+      "Seun invited Angel and her sister to a close friend's Friendsgiving. Ironically, they started the night lightly trash-talking each other, and Angel left thinking Seun was a little annoying.",
     side: "left" as const,
   },
   {
-    year: "2021",
-    title: "First Date",
+    year: "Chapter One",
+    title: "From Banter to a First Date",
     description:
-      "A candlelit dinner at that tiny Italian place downtown. We talked until the staff started stacking chairs.",
+      "What started as playful back-and-forth became genuine curiosity. They decided to see each other again, and the first real date was set.",
     side: "right" as const,
   },
   {
-    year: "2022",
-    title: "The Italy Trip",
+    year: "Chapter Two",
+    title: "Gym Date, Then French Dinner",
     description:
-      "Two weeks wandering through Florence, Rome, and the Amalfi Coast. Somewhere between the Colosseum and a plate of cacio e pepe, we fell completely.",
+      "Their first date was a gym date, followed by dinner at an amazing French restaurant. The mix of effort, conversation, and laughter made it clear this was going somewhere special.",
     side: "left" as const,
   },
   {
-    year: "2023",
-    title: "Moving In Together",
+    year: "Chapter Three",
+    title: "The Korean BBQ Night",
     description:
-      "Our first apartment — a cozy one-bedroom with a leaky faucet and the best morning light. We painted the walls sage green.",
+      "Soon after, they hosted their own little Korean BBQ night. Somewhere between shared plates and late-night conversation, their bond deepened and felt undeniably real.",
     side: "right" as const,
   },
   {
-    year: "2024",
-    title: "Getting a Dog",
+    year: "Since Then",
+    title: "Growing Closer Every Day",
     description:
-      "Luna joined our family — a golden retriever with an attitude problem and a heart of gold. She chose us at the shelter.",
+      "From that point on, everything grew naturally: deeper friendship, stronger love, and the kind of partnership built on faith, laughter, and choosing each other again and again.",
     side: "left" as const,
   },
   {
-    year: "2025",
-    title: "The Proposal",
+    year: "Now",
+    title: "The Rest Is History",
     description:
-      'On the cliffs of Big Sur at sunset, with the Pacific crashing below. One knee, one ring, one "yes" that echoed louder than the waves.',
+      "And now here we are, inviting you into the next chapter. Thank you for being part of our story and for celebrating this day with us.",
     side: "right" as const,
-  },
-  {
-    year: "2026",
-    title: "The Wedding",
-    description:
-      "And here we are. Ready to promise forever in front of everyone we love. We can't wait to celebrate with you.",
-    side: "left" as const,
   },
 ];
 
@@ -76,7 +69,7 @@ export default function OurStory() {
         <p
           className={`text-lg max-w-xl mx-auto ${isDark ? "text-gray-400" : "text-warm-gray"}`}
         >
-          Every love story is beautiful, but ours is our favorite.
+          A little unexpected, a lot of laughter, and a love that kept growing.
         </p>
       </section>
 

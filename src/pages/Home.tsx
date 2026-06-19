@@ -274,7 +274,7 @@ export default function Home() {
           onPlay={goToOurStory}
           onMoreInfo={goToWeddingDay}
           lightBgImage={weddingDetails.images.aerialView}
-          darkBgImage={weddingDetails.images.manorExterior}
+          darkBgImage={weddingDetails.images.churchExterior}
         />
 
         {/* ── 1. Wedding Party carousel — full width ── */}

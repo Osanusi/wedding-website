@@ -19,14 +19,9 @@ const schedule = [
     detail: "Immaculate Conception Church — vows with family and friends",
   },
   {
-    time: "3:30 PM - 4:30 PM",
-    event: "Cocktail Hour",
-    detail: "Beacon Hill Manor — cocktails and light bites",
-  },
-  {
-    time: "5:30 PM - 6:30 PM",
     event: "Reception",
-    detail: "Beacon Hill Manor — welcome toast and celebration continues",
+    time: "3:30 PM",
+    detail: "Beacon Hill Manor — reception begins with cocktails and welcome toasts",
   },
   {
     time: "6:30 PM",
