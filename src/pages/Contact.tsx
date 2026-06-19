@@ -104,7 +104,7 @@ export default function Contact() {
       <section className="max-w-3xl mx-auto px-4 pb-12">
         <div className="grid sm:grid-cols-3 gap-4">
           <a
-            href="mailto:angel.seun.wedding@example.com"
+            href="mailto:osanusi227@gmail.com"
             className={`p-6 rounded-xl text-center transition-all ${
               isDark
                 ? "bg-tron-grid border border-tron-blue/10 hover:border-tron-blue/30"
@@ -123,12 +123,12 @@ export default function Contact() {
             <p
               className={`text-xs mt-1 ${isDark ? "text-gray-500" : "text-warm-gray"}`}
             >
-              angel.seun@example.com
+              osanusi227@gmail.com
             </p>
           </a>
 
           <a
-            href="tel:+15551234567"
+            href="tel:+14436247274"
             className={`p-6 rounded-xl text-center transition-all ${
               isDark
                 ? "bg-tron-grid border border-tron-blue/10 hover:border-tron-blue/30"
@@ -147,12 +147,12 @@ export default function Contact() {
             <p
               className={`text-xs mt-1 ${isDark ? "text-gray-500" : "text-warm-gray"}`}
             >
-              (555) 123-4567
+              (443) 624-7274
             </p>
           </a>
 
           <a
-            href="sms:+15551234567"
+            href="sms:+14436247274"
             className={`p-6 rounded-xl text-center transition-all ${
               isDark
                 ? "bg-tron-grid border border-tron-blue/10 hover:border-tron-blue/30"
@@ -171,7 +171,7 @@ export default function Contact() {
             <p
               className={`text-xs mt-1 ${isDark ? "text-gray-500" : "text-warm-gray"}`}
             >
-              (555) 123-4567
+              (443) 624-7274
             </p>
           </a>
         </div>
@@ -199,12 +199,12 @@ export default function Contact() {
           <p
             className={`text-sm mt-2 font-medium ${isDark ? "text-tron-blue" : "text-dusty-blue"}`}
           >
-            Maria Santos — Elegant Events Co.
+            Bonnie
           </p>
           <p
             className={`text-xs mt-1 ${isDark ? "text-gray-500" : "text-warm-gray"}`}
           >
-            maria@elegantevents.example.com · (555) 987-6543
+            Coordinator email and phone coming soon.
           </p>
         </div>
       </section>
