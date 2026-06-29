@@ -1145,6 +1145,7 @@ function InvitationCard({
             </a>
             <Link
               to="/"
+              state={{ skipSplash: true }}
               className="text-center text-xs uppercase tracking-[0.42em] text-warm-gray/75 underline-offset-4 hover:underline dark:text-tron-blue/70 sm:self-center"
             >
               Open wedding website

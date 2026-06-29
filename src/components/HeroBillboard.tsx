@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Play, Info } from "lucide-react";
 import { useOutletContext } from "react-router-dom";
+import { useMemo } from "react";
 import type { ReactNode } from "react";
 import TimelessBackdrop from "./TimelessBackdrop";
 
@@ -26,6 +27,10 @@ export default function HeroBillboard({
   darkBgImage,
 }: HeroBillboardProps) {
   const { isDark } = useOutletContext<{ isDark: boolean }>();
+  const isSafari = useMemo(() => {
+    if (typeof window === "undefined") return false;
+    return /^((?!chrome|android).)*safari/i.test(window.navigator.userAgent);
+  }, []);
 
   return (
     <section className="relative w-full h-[70vh] sm:h-[80vh] flex items-end overflow-hidden">
@@ -38,7 +43,13 @@ export default function HeroBillboard({
                 src={darkBgImage}
                 alt=""
                 aria-hidden="true"
-                className="absolute inset-0 h-full w-full object-cover opacity-40 mix-blend-luminosity"
+                className={`absolute inset-0 h-full w-full object-cover ${
+                  isSafari
+                    ? "opacity-35"
+                    : "opacity-40 mix-blend-luminosity"
+                }`}
+                loading="eager"
+                fetchPriority="high"
               />
             ) : null}
             {/* Tron grid over image */}
