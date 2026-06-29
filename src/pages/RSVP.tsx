@@ -135,9 +135,32 @@ export default function RSVP() {
       setSubmitted(true);
     } catch (err) {
       console.error("[rsvp] submit failed", err);
-      setSubmitError(
-        "We couldn't save your RSVP just now. Please try again in a moment.",
-      );
+      const e = err as {
+        code?: string;
+        message?: string;
+        details?: string;
+      };
+
+      // If a unique email constraint exists in Supabase, treat repeat submissions
+      // as success instead of showing a hard failure.
+      if (e.code === "23505") {
+        setSubmitted(true);
+        return;
+      }
+
+      if (e.code === "42501") {
+        setSubmitError(
+          "RSVP permissions are temporarily misconfigured. Please try again shortly or contact us directly.",
+        );
+      } else if ((e.message || "").toLowerCase().includes("failed to fetch")) {
+        setSubmitError(
+          "We couldn't reach RSVP storage. Please check your connection and try again.",
+        );
+      } else {
+        setSubmitError(
+          "We couldn't save your RSVP just now. Please try again in a moment.",
+        );
+      }
     } finally {
       setSubmitting(false);
     }

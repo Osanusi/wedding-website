@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext, useLocation } from "react-router-dom";
 import {
   motion,
   AnimatePresence,
@@ -138,7 +138,11 @@ export default function Home() {
     setIsDark: (v: boolean) => void;
   }>();
   const navigate = useNavigate();
-  const [entered, setEntered] = useState(false);
+  const location = useLocation();
+  const [entered, setEntered] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.sessionStorage.getItem("home-entered") === "1";
+  });
   const goToOurStory = useCallback(() => navigate("/our-story"), [navigate]);
   const goToWeddingDay = useCallback(
     () => navigate("/wedding-day"),
@@ -148,8 +152,20 @@ export default function Home() {
   const switchToLight = useCallback(() => setIsDark(false), [setIsDark]);
   const switchToDark = useCallback(() => setIsDark(true), [setIsDark]);
 
+  useEffect(() => {
+    const state = location.state as { skipSplash?: boolean } | null;
+    if (state?.skipSplash) {
+      setEntered(true);
+      window.sessionStorage.setItem("home-entered", "1");
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state]);
+
   // Listen for "reset-splash" from the navbar logo click
-  const resetSplash = useCallback(() => setEntered(false), []);
+  const resetSplash = useCallback(() => {
+    setEntered(false);
+    window.sessionStorage.removeItem("home-entered");
+  }, []);
   useEffect(() => {
     window.addEventListener("reset-splash", resetSplash);
     return () => window.removeEventListener("reset-splash", resetSplash);
@@ -239,7 +255,10 @@ export default function Home() {
 
                 {/* Enter Experience */}
                 <button
-                  onClick={() => setEntered(true)}
+                  onClick={() => {
+                    setEntered(true);
+                    window.sessionStorage.setItem("home-entered", "1");
+                  }}
                   className="px-8 py-4 rounded-lg font-semibold text-lg transition-all cursor-pointer
                     bg-[linear-gradient(135deg,rgba(184,143,74,0.96),rgba(127,154,184,0.96))] text-cream
                     hover:shadow-[0_18px_42px_rgba(127,154,184,0.24)] shadow-[0_14px_34px_rgba(184,143,74,0.22)]"
