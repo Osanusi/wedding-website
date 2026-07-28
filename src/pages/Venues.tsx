@@ -77,10 +77,10 @@ const hotels = [
     iconVariant: "cream",
   },
   {
-    title: "Travel Notes",
-    subtitle: "More details to come",
+    title: "Shuttle & Parking",
+    subtitle: "Church to reception transport",
     description:
-      "We will share transportation, parking, and room block details as plans are finalized.",
+      "A shuttle will run from Immaculate Conception Church to Beacon Hill Manor for guests who need transportation. If you plan to use the shuttle, park in the garage near the church. Emergency 'wedding guest' street signs will also be posted in front of the church for parking during the ceremony.",
     bookUrl: "#",
     icon: Landmark,
     iconVariant: "blush",

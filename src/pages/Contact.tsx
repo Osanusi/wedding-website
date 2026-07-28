@@ -15,6 +15,10 @@ const faqs = [
     a: `${weddingDetails.venue.name} has plenty of on-site parking, with space for up to 65 cars.`,
   },
   {
+    q: "Where should I park for the ceremony?",
+    a: "If you plan to take the shuttle to the reception, we recommend parking in the garage near Immaculate Conception Church. Emergency 'wedding guest' street signs will also be posted in front of the church, allowing guests to park on the street during the ceremony.",
+  },
+  {
     q: "Are children welcome?",
     a: "Yes, children are welcome to celebrate with us.",
   },
@@ -31,8 +35,8 @@ const faqs = [
     a: "Lodging recommendations and any room block details are coming soon. Check the Venues page for the latest guest stay guidance.",
   },
   {
-    q: "Will there be transportation between the hotel and venue?",
-    a: "Transportation details are still being finalized. If shuttle service is offered, departure times and pickup locations will be shared closer to the date.",
+    q: "Will there be a shuttle between the church and the reception venue?",
+    a: "Yes — a shuttle will be provided from Immaculate Conception Church to Beacon Hill Manor for guests who need transportation. If you plan to use the shuttle, we recommend parking in the garage near the church. Exact departure times and pickup details will be shared closer to the date.",
   },
 ];
 
@@ -177,7 +181,7 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Wedding Coordinator */}
+      {/* Wedding Planners */}
       <section className="max-w-3xl mx-auto px-4 pb-12">
         <div
           className={`p-6 rounded-xl ${
@@ -189,22 +193,22 @@ export default function Contact() {
           <h3
             className={`font-semibold mb-2 ${isDark ? "text-gray-200" : "text-dusty-blue"}`}
           >
-            Wedding Coordinator
+            Wedding Planners
           </h3>
           <p
             className={`text-sm ${isDark ? "text-gray-400" : "text-warm-gray"}`}
           >
-            For logistics, vendor questions, or day-of coordination:
+            For logistics, vendor questions, or day-of coordination, please reach out to our planners:
           </p>
           <p
             className={`text-sm mt-2 font-medium ${isDark ? "text-tron-blue" : "text-dusty-blue"}`}
           >
-            Bonnie
+            Marianna Patalighug &amp; Bonnie
           </p>
           <p
             className={`text-xs mt-1 ${isDark ? "text-gray-500" : "text-warm-gray"}`}
           >
-            Coordinator email and phone coming soon.
+            Planner contact details coming soon.
           </p>
         </div>
       </section>

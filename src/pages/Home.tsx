@@ -30,6 +30,11 @@ import { weddingDetails } from "../data/weddingDetails";
 const partyMembers: PartyMember[] = [
   {
     name: "Mae D",
+    role: "Maid of Honor",
+    tagline: "Maid of Honor",
+  },
+  {
+    name: "Jenny",
     role: "Bridesmaid",
     tagline: "Bridesmaid",
   },
@@ -128,7 +133,7 @@ const homeLinks = [
 const highlightStats = [
   { label: "The Date", value: "Aug 29", icon: CalendarDays },
   { label: "Venues", value: "2", icon: MapPin },
-  { label: "Wedding Party", value: "18", icon: Users },
+  { label: "Wedding Party", value: "19", icon: Users },
   { label: "Days to Go", value: "78", icon: Clock3 },
 ];
 
