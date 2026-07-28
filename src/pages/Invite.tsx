@@ -14,9 +14,9 @@ import {
   Send,
   SkipForward,
 } from "lucide-react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import ThemeMusicController from "../components/ThemeMusicController";
-import { getGoogleCalendarUrl, weddingDetails } from "../data/weddingDetails";
+import { downloadWeddingIcs, weddingDetails } from "../data/weddingDetails";
 
 // ────────────────────────────────────────────────────────────────────────────
 // Act orchestration
@@ -985,13 +985,24 @@ function SceneCaption({
 
 function InvitationCard({
   guestName,
-  calendarUrl,
   reducedMotion,
 }: {
   guestName: string | null;
-  calendarUrl: string;
   reducedMotion: boolean;
 }) {
+  const navigate = useNavigate();
+  const handleAddToCalendar = useCallback(() => {
+    downloadWeddingIcs();
+  }, []);
+  const handleOpenWebsite = useCallback(() => {
+    // Skip Home's splash animation for an instant transition
+    try {
+      window.sessionStorage.setItem("home-entered", "1");
+    } catch {
+      // sessionStorage may be unavailable (private mode) — ignore
+    }
+    navigate("/", { state: { skipSplash: true } });
+  }, [navigate]);
   const fadeUp: Variants = reducedMotion
     ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
     : {
@@ -1134,22 +1145,21 @@ function InvitationCard({
             animate="show"
             transition={{ delay: 0.36 }}
           >
-            <a
-              href={calendarUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
+              onClick={handleAddToCalendar}
               className="inline-flex items-center justify-center gap-2 rounded-full border border-gilded-gold/60 px-7 py-3 text-sm uppercase tracking-[0.32em] text-warm-gray transition hover:bg-gilded-gold/10 dark:border-tron-blue/60 dark:text-tron-blue dark:hover:bg-tron-blue/10"
             >
               <CalendarPlus className="h-4 w-4" />
               Add to calendar
-            </a>
-            <Link
-              to="/"
-              state={{ skipSplash: true }}
+            </button>
+            <button
+              type="button"
+              onClick={handleOpenWebsite}
               className="text-center text-xs uppercase tracking-[0.42em] text-warm-gray/75 underline-offset-4 hover:underline dark:text-tron-blue/70 sm:self-center"
             >
               Open wedding website
-            </Link>
+            </button>
           </motion.div>
 
           <p className="mt-12 flex items-center justify-center gap-2 text-[0.65rem] uppercase tracking-[0.4em] text-warm-gray/70 dark:font-tech dark:text-tron-blue/60">
@@ -1288,8 +1298,6 @@ export default function Invite() {
     setAct("card");
   }, [clearAdvance]);
 
-  const calendarUrl = useMemo(() => getGoogleCalendarUrl(), []);
-
   return (
     <main className="relative min-h-dvh w-full overflow-hidden bg-cream text-warm-gray dark:bg-tron-black dark:text-tron-blue">
       <div className="relative h-dvh w-full">
@@ -1315,7 +1323,6 @@ export default function Invite() {
             <InvitationCard
               key="act-card"
               guestName={guestName}
-              calendarUrl={calendarUrl}
               reducedMotion={reducedMotion}
             />
           )}

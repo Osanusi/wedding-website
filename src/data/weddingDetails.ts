@@ -65,3 +65,78 @@ export function getGoogleCalendarUrl() {
 
   return `https://calendar.google.com/calendar/render?${params.toString()}`;
 }
+
+function toIcsDate(value: string) {
+  // Emits a floating (TZID-relative) DATE-TIME value: YYYYMMDDTHHMMSS
+  return value.replace(/[-:]/g, "");
+}
+
+function icsEscape(value: string) {
+  return value
+    .replace(/\\/g, "\\\\")
+    .replace(/\n/g, "\\n")
+    .replace(/,/g, "\\,")
+    .replace(/;/g, "\\;");
+}
+
+export function getIcsContent() {
+  const {
+    coupleNames,
+    startDateTime,
+    endDateTime,
+    timeZone,
+    ceremonyVenue,
+    venue,
+  } = weddingDetails;
+
+  const uid = `angel-seun-wedding-${toIcsDate(startDateTime)}@wedding`;
+  const dtStamp =
+    new Date().toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+
+  const summary = icsEscape(`${coupleNames} Wedding`);
+  const description = icsEscape(
+    `Join us to celebrate ${coupleNames}.\nCeremony at ${ceremonyVenue.name}; reception at ${venue.name}.`,
+  );
+  const location = icsEscape(
+    `${ceremonyVenue.name}, ${ceremonyVenue.region}`,
+  );
+
+  return [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//Angel & Seun Wedding//EN",
+    "CALSCALE:GREGORIAN",
+    "METHOD:PUBLISH",
+    "BEGIN:VEVENT",
+    `UID:${uid}`,
+    `DTSTAMP:${dtStamp}`,
+    `DTSTART;TZID=${timeZone}:${toIcsDate(startDateTime)}`,
+    `DTEND;TZID=${timeZone}:${toIcsDate(endDateTime)}`,
+    `SUMMARY:${summary}`,
+    `DESCRIPTION:${description}`,
+    `LOCATION:${location}`,
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ].join("\r\n");
+}
+
+export function downloadWeddingIcs() {
+  if (typeof window === "undefined") return;
+
+  const content = getIcsContent();
+  const blob = new Blob([content], {
+    type: "text/calendar;charset=utf-8",
+  });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "angel-and-seun-wedding.ics";
+  link.rel = "noopener";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  // Revoke on next tick so mobile browsers have time to hand off to the OS
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
