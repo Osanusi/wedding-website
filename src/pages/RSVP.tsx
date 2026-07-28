@@ -35,8 +35,9 @@ const transportOptions: { value: Exclude<TransportChoice, "">; label: string; de
   },
   {
     value: "need_shuttle",
-    label: "I'd like shuttle info from DC",
-    detail: "We'll send pickup details if there's enough interest.",
+    label: "I'll take the shuttle from the church",
+    detail:
+      "A shuttle will run from Immaculate Conception Church to Beacon Hill Manor. Park in the garage near the church if you plan to ride.",
   },
   {
     value: "unsure",
