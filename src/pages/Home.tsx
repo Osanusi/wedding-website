@@ -146,7 +146,13 @@ export default function Home() {
   const location = useLocation();
   const [entered, setEntered] = useState(() => {
     if (typeof window === "undefined") return false;
-    return window.sessionStorage.getItem("home-entered") === "1";
+    if (window.sessionStorage.getItem("home-entered") === "1") return true;
+    // React Router stores navigation state under history.state.usr. Reading it
+    // synchronously here prevents the splash from flashing when arriving from
+    // the invite via `navigate("/", { state: { skipSplash: true } })`.
+    const routerState = (window.history.state as { usr?: { skipSplash?: boolean } } | null)
+      ?.usr;
+    return routerState?.skipSplash === true;
   });
   const goToOurStory = useCallback(() => navigate("/our-story"), [navigate]);
   const goToWeddingDay = useCallback(
