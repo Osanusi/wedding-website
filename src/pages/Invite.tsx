@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import ThemeMusicController from "../components/ThemeMusicController";
-import { downloadWeddingIcs, weddingDetails } from "../data/weddingDetails";
+import { weddingDetails } from "../data/weddingDetails";
 
 // ────────────────────────────────────────────────────────────────────────────
 // Act orchestration
@@ -991,9 +991,6 @@ function InvitationCard({
   reducedMotion: boolean;
 }) {
   const navigate = useNavigate();
-  const handleAddToCalendar = useCallback(() => {
-    downloadWeddingIcs();
-  }, []);
   const handleOpenWebsite = useCallback(() => {
     // Skip Home's splash animation for an instant transition
     try {
@@ -1145,14 +1142,14 @@ function InvitationCard({
             animate="show"
             transition={{ delay: 0.36 }}
           >
-            <button
-              type="button"
-              onClick={handleAddToCalendar}
+            <a
+              href="/wedding.ics"
+              download="angel-and-seun-wedding.ics"
               className="inline-flex items-center justify-center gap-2 rounded-full border border-gilded-gold/60 px-7 py-3 text-sm uppercase tracking-[0.32em] text-warm-gray transition hover:bg-gilded-gold/10 dark:border-tron-blue/60 dark:text-tron-blue dark:hover:bg-tron-blue/10"
             >
               <CalendarPlus className="h-4 w-4" />
               Add to calendar
-            </button>
+            </a>
             <button
               type="button"
               onClick={handleOpenWebsite}
