@@ -80,7 +80,7 @@ const hotels = [
     title: "Shuttle & Parking",
     subtitle: "Church to reception transport",
     description:
-      "A shuttle will run from Immaculate Conception Church to Beacon Hill Manor for guests who need transportation. If you plan to use the shuttle, park in the garage near the church. Emergency 'wedding guest' street signs will also be posted in front of the church for parking during the ceremony.",
+      "A shuttle will run from Immaculate Conception Church to Beacon Hill Manor for guests who need transportation. Street parking is available around the church (2-hour limit) and 'wedding guest' No Parking signs will be posted in front of the church during the ceremony. For longer parking, use the Colonial Parking garage at 7th & O Streets NW — a short walk from the church.",
     bookUrl: "#",
     icon: Landmark,
     iconVariant: "blush",

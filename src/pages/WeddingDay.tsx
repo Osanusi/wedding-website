@@ -22,7 +22,7 @@ const schedule = [
     time: "1:30 PM",
     event: "Shuttle to Reception",
     detail:
-      "Shuttle departs Immaculate Conception Church for Beacon Hill Manor between 1:30 – 2:00 PM. Park in the garage near the church if you plan to ride.",
+      "Shuttle departs Immaculate Conception Church for Beacon Hill Manor between 1:30 – 2:00 PM. Park at the Colonial Parking garage (7th & O Streets NW) if you plan to ride.",
   },
   {
     event: "Reception",
@@ -288,13 +288,26 @@ export default function WeddingDay() {
               <strong
                 className={isDark ? "text-tron-blue" : "text-dusty-blue"}
               >
-                Parking tip:
+                Parking at the church:
               </strong>{" "}
-              If you plan to take the shuttle, we recommend parking in the
-              garage near Immaculate Conception Church. Emergency &ldquo;wedding
-              guest&rdquo; street signs will also be posted in front of the
-              church, allowing guests to park on the street during the
-              ceremony.
+              Street parking is available around Immaculate Conception Church
+              (limited to 2 hours), and &ldquo;wedding guest&rdquo; No Parking
+              signs will be posted in front of the church so guests can park on
+              the street during the ceremony. For longer parking, use the{" "}
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=Colonial%20Parking%207th%20and%20O%20Streets%20NW%20Washington%20DC"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`underline underline-offset-2 ${
+                  isDark
+                    ? "text-tron-blue hover:text-tron-blue/80"
+                    : "text-dusty-blue hover:text-dusty-blue/80"
+                }`}
+              >
+                Colonial Parking garage at 7th &amp; O Streets NW
+              </a>
+              , a short walk from the church. Tip: a purchase from the Giant
+              across the street from the garage validates parking for 2 hours.
             </p>
           </div>
         </div>
