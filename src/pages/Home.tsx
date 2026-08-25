@@ -134,8 +134,31 @@ const highlightStats = [
   { label: "The Date", value: "Aug 29", icon: CalendarDays },
   { label: "Venues", value: "2", icon: MapPin },
   { label: "Wedding Party", value: "19", icon: Users },
-  { label: "Days to Go", value: "78", icon: Clock3 },
 ];
+
+function getDaysUntilWedding() {
+  const now = Date.now();
+  const target = new Date(weddingDetails.startDateTime).getTime();
+  const diffMs = target - now;
+  if (diffMs <= 0) return 0;
+  return Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+}
+
+function useDaysUntilWedding() {
+  const [days, setDays] = useState(() => getDaysUntilWedding());
+
+  useEffect(() => {
+    // Recompute on mount and once an hour so the number stays fresh without a reload
+    setDays(getDaysUntilWedding());
+    const id = window.setInterval(
+      () => setDays(getDaysUntilWedding()),
+      60 * 60 * 1000,
+    );
+    return () => window.clearInterval(id);
+  }, []);
+
+  return days;
+}
 
 export default function Home() {
   const { isDark, setIsDark } = useOutletContext<{
@@ -144,6 +167,7 @@ export default function Home() {
   }>();
   const navigate = useNavigate();
   const location = useLocation();
+  const daysUntilWedding = useDaysUntilWedding();
   const [entered, setEntered] = useState(() => {
     if (typeof window === "undefined") return false;
     if (window.sessionStorage.getItem("home-entered") === "1") return true;
@@ -351,7 +375,14 @@ export default function Home() {
           className={`mt-10 border-y py-8 ${isDark ? "border-tron-blue/15 bg-tron-grid/40" : "border-sage/20 bg-white/60"}`}
         >
           <div className="mx-auto grid max-w-screen-xl grid-cols-2 gap-6 px-6 sm:grid-cols-4 sm:px-10">
-            {highlightStats.map((item, i) => {
+            {[
+              ...highlightStats,
+              {
+                label: daysUntilWedding === 0 ? "Today!" : "Days to Go",
+                value: daysUntilWedding.toString(),
+                icon: Clock3,
+              },
+            ].map((item, i) => {
               const Icon = item.icon;
               return (
                 <motion.div

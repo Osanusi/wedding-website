@@ -16,7 +16,7 @@ const faqs = [
   },
   {
     q: "Where should I park for the ceremony?",
-    a: "If you plan to take the shuttle to the reception, we recommend parking in the garage near Immaculate Conception Church. Emergency 'wedding guest' street signs will also be posted in front of the church, allowing guests to park on the street during the ceremony.",
+    a: "Street parking is available around Immaculate Conception Church (limited to 2 hours), and 'wedding guest' No Parking signs will be posted in front of the church so guests can park on the street during the ceremony. For longer parking, we recommend the Colonial Parking garage at 7th & O Streets NW — just a short walk from the church. If you buy something from the Giant across the street from the garage, they will validate your parking for 2 hours.",
   },
   {
     q: "Are children welcome?",
@@ -36,7 +36,7 @@ const faqs = [
   },
   {
     q: "Will there be a shuttle between the church and the reception venue?",
-    a: "Yes — a shuttle will be provided from Immaculate Conception Church to Beacon Hill Manor for guests who need transportation. If you plan to use the shuttle, we recommend parking in the garage near the church. Exact departure times and pickup details will be shared closer to the date.",
+    a: "Yes — a shuttle will be provided from Immaculate Conception Church to Beacon Hill Manor for guests who need transportation. If you plan to use the shuttle, we recommend parking at the Colonial Parking garage at 7th & O Streets NW (a short walk from the church). Exact departure times and pickup details will be shared closer to the date.",
   },
 ];
 
