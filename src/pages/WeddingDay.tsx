@@ -11,49 +11,78 @@ const schedule = [
   {
     time: "11:30 AM",
     event: "Guest Arrival",
-    detail: "Arrive at Immaculate Conception Church and get settled",
+    detail: "Arrive at Immaculate Conception Church and get settled.",
   },
   {
     time: "12:00 PM",
     event: "Ceremony",
-    detail: "Immaculate Conception Church — vows with family and friends",
+    detail:
+      "Nuptial Mass at Immaculate Conception Church, from 12:00 – 1:30 PM.",
   },
   {
-    time: "1:30 PM",
+    time: "2:00 PM",
     event: "Shuttle to Reception",
     detail:
-      "Shuttle departs Immaculate Conception Church for Beacon Hill Manor between 1:30 – 2:00 PM. Park at the Colonial Parking garage (7th & O Streets NW) if you plan to ride.",
+      "Shuttle departs the church for Beacon Hill Manor with guests and the wedding party.",
   },
   {
-    event: "Reception",
     time: "3:30 PM",
-    detail: "Beacon Hill Manor — reception begins with cocktails and welcome toasts",
+    event: "Cocktail Hour",
+    detail:
+      "Cocktails and welcome bites at Beacon Hill Manor, 3:30 – 4:45 PM.",
   },
   {
-    time: "6:30 PM",
+    time: "4:45 PM",
+    event: "Grand Entrance",
+    detail: "The DJ welcomes Oluseun & Angel into the reception.",
+  },
+  {
+    time: "5:00 PM",
+    event: "Dinner",
+    detail: "Dinner service begins with background music from the DJ.",
+  },
+  {
+    time: "6:00 PM",
+    event: "Speeches & Toasts",
+    detail:
+      "Toasts from Ryan (Best Man), Mae (Maid of Honor), and the Bride's Father.",
+  },
+  {
+    time: "6:15 PM",
     event: "First Dance",
-    detail: "A moment just for the two of us (and 200 witnesses)",
+    detail: "The couple's first dance.",
+  },
+  {
+    time: "6:45 PM",
+    event: "Parent Dances",
+    detail: "Father/Daughter dance followed by the Mother/Son dance.",
+  },
+  {
+    time: "6:55 PM",
+    event: "Cake Cutting",
+    detail: "The couple cuts the cake before it's served to guests.",
   },
   {
     time: "7:00 PM",
-    event: "Dinner",
-    detail: "Buffet-style dinner service",
+    event: "Open Dancing",
+    detail: "Dance floor opens — join the party!",
   },
   {
-    time: "8:00 PM",
-    event: "Dancing & Party",
-    detail: "DJ takes the stage — dance until midnight!",
+    time: "7:30 PM",
+    event: "Sunset Portraits",
+    detail:
+      "The couple steps away briefly for sunset photos while dancing continues.",
+  },
+  {
+    time: "9:15 PM",
+    event: "Last Call",
+    detail: "Final dances and photos before the couple's exit.",
   },
   {
     time: "10:00 PM",
     event: "Shuttle Back",
     detail:
-      "Shuttle departs Beacon Hill Manor around 10:00 PM to return guests to Immaculate Conception Church.",
-  },
-  {
-    time: "11:30 PM",
-    event: "Sparkler Send-Off",
-    detail: "Light the way as we start our forever",
+      "Shuttle departs Beacon Hill Manor to return guests to Immaculate Conception Church.",
   },
 ];
 
@@ -233,15 +262,15 @@ export default function WeddingDay() {
                   isDark ? "text-gray-200" : "text-dusty-blue"
                 }`}
               >
-                Departs 1:30 – 2:00 PM
+                Departs ~2:00 PM
               </p>
               <p
                 className={`text-sm mt-1 ${
                   isDark ? "text-gray-500" : "text-warm-gray"
                 }`}
               >
-                Picks up guests after the ceremony from Immaculate Conception
-                Church.
+                Picks up guests and the wedding party after the ceremony from
+                Immaculate Conception Church.
               </p>
             </div>
 

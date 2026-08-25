@@ -3,7 +3,7 @@ export const weddingDetails = {
   dateDisplay: "August 29, 2026",
   dateLongDisplay: "Saturday, August 29, 2026",
   startDateTime: "2026-08-29T12:00:00",
-  endDateTime: "2026-08-29T23:30:00",
+  endDateTime: "2026-08-29T22:00:00",
   timeZone: "America/New_York",
   ceremonyVenue: {
     name: "Immaculate Conception Church",
